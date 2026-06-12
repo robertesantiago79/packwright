@@ -1,9 +1,9 @@
 import { engine } from "../../core/index.js";
 
-const HELP = `Context Engine CLI
+const HELP = `Packwright CLI
 
 Usage:
-  context-engine [command] [options]
+  packwright [command] [options]
 
 Commands:
   compile    Compile an intake into a context pack (stub in Slice 0)

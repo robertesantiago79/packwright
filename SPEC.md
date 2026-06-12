@@ -1,6 +1,7 @@
 # Context Engine — P0 Build Specification
 **Version:** 1.0
 **Date:** 2026-06-12
+**Amendment v1.0.1 (2026-06-12): Project renamed Context Engine → Packwright. All references to context-engine as a name now read packwright; technical content unchanged.**
 **Parent document:** Context Engine — Master Operating Document v1.0 (governs; conflicts resolve to Master)
 **Execution model:** Claude = controller/reviewer · Codex-in-Termux = executor · S24 = runtime validator
 **Phase gate (from Master, P0):** Packs demonstrably beat raw prompting on the OmniAgent test case via the eval harness.
