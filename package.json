@@ -7,10 +7,13 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && mkdir -p dist/core/schema && cp src/core/schema/pack.schema.json dist/core/schema/pack.schema.json",
     "test": "vitest run",
     "lint": "eslint .",
     "cli": "tsx src/adapters/cli/index.ts"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",

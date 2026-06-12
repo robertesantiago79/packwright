@@ -20,7 +20,7 @@ export default tseslint.config(
       globals: globals.node,
       parserOptions: {
         projectService: {
-          allowDefaultProject: ["test/*.ts"],
+          allowDefaultProject: ["test/*.ts", "test/fixtures/*.ts"],
         },
         tsconfigRootDir: import.meta.dirname,
       },

@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://packwright.dev/schema/context-pack-1.0.json",
+  "title": "Packwright Context Pack v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "specVersion",
+    "packId",
+    "createdAt",
+    "intake",
+    "confidence",
+    "confidenceNotes",
+    "projectSummary",
+    "resources",
+    "path",
+    "extractedPatterns",
+    "artifactGuidance",
+    "aiContextBlock",
+    "stats"
+  ],
+  "properties": {
+    "specVersion": {
+      "const": "1.0"
+    },
+    "packId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "createdAt": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
+    },
+    "intake": {
+      "$ref": "#/$defs/intake"
+    },
+    "confidence": {
+      "enum": ["high", "medium", "low"]
+    },
+    "confidenceNotes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "projectSummary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resources": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "$ref": "#/$defs/resource"
+      }
+    },
+    "path": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/pathItem"
+      }
+    },
+    "extractedPatterns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "artifactGuidance": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "aiContextBlock": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidatesConsidered", "totalEstMinutes"],
+      "properties": {
+        "candidatesConsidered": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "totalEstMinutes": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "$defs": {
+    "intake": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["projectName", "description", "stage"],
+      "properties": {
+        "projectName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "description": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 600
+        },
+        "stage": {
+          "enum": ["discovery", "prd"]
+        },
+        "depth": {
+          "enum": ["light", "medium", "deep"]
+        },
+        "timeBudgetMin": {
+          "enum": [15, 30, 60]
+        },
+        "sourcePreference": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "doc": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 2
+            },
+            "video": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 2
+            },
+            "visual": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 2
+            },
+            "example": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 2
+            }
+          }
+        }
+      }
+    },
+    "resource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "url",
+        "type",
+        "sourceProvider",
+        "rationale",
+        "estMinutes",
+        "scores"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https?://"
+        },
+        "type": {
+          "enum": ["doc", "video", "visual", "example"]
+        },
+        "sourceProvider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "estMinutes": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "scores": {
+          "$ref": "#/$defs/scores"
+        }
+      }
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stageRelevance",
+        "topicalMatch",
+        "signalQuality",
+        "composite"
+      ],
+      "properties": {
+        "stageRelevance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "topicalMatch": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "signalQuality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "composite": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "pathItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resourceId", "position", "role"],
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "position": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "role": {
+          "enum": [
+            "orientation",
+            "deepening",
+            "comparative",
+            "synthesis"
+          ]
+        }
+      }
+    }
+  }
+}
