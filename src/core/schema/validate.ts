@@ -8,6 +8,8 @@ export interface PackValidationResult {
   errors: string[];
 }
 
+export const TIME_BUDGET_TOLERANCE = 0.2;
+
 const ajv = new Ajv2020({ allErrors: true, strict: true });
 const validateSchema = ajv.compile<ContextPack>(packSchema);
 
@@ -31,7 +33,7 @@ function validatePath(pack: ContextPack): string[] {
   for (const [index, item] of pack.path.entries()) {
     if (!resourceIds.has(item.resourceId)) {
       errors.push(
-        `path[${String(index)}].resourceId references nonexistent resourceId '${item.resourceId}'`,
+        `path[${index}].resourceId references nonexistent resourceId '${item.resourceId}'`,
       );
     }
 
@@ -39,7 +41,7 @@ function validatePath(pack: ContextPack): string[] {
 
     if (item.position !== index + 1) {
       errors.push(
-        `path[${String(index)}].position must be ${String(index + 1)}; received ${String(item.position)}`,
+        `path[${index}].position must be ${index + 1}; received ${item.position}`,
       );
     }
   }
@@ -48,7 +50,7 @@ function validatePath(pack: ContextPack): string[] {
     const count = pathCounts.get(resourceId) ?? 0;
     if (count !== 1) {
       errors.push(
-        `resourceId '${resourceId}' must appear exactly once in path; found ${String(count)}`,
+        `resourceId '${resourceId}' must appear exactly once in path; found ${count}`,
       );
     }
   }
@@ -65,20 +67,20 @@ function validateTimeBudget(pack: ContextPack): string[] {
 
   if (pack.stats.totalEstMinutes !== resourceTotal) {
     errors.push(
-      `stats.totalEstMinutes must equal summed resource estMinutes (${String(resourceTotal)}); received ${String(pack.stats.totalEstMinutes)}`,
+      `stats.totalEstMinutes must equal summed resource estMinutes (${resourceTotal}); received ${pack.stats.totalEstMinutes}`,
     );
   }
 
   const budget = pack.intake.timeBudgetMin ?? 30;
-  const minimum = budget * 0.8;
-  const maximum = budget * 1.2;
+  const minimum = budget * (1 - TIME_BUDGET_TOLERANCE);
+  const maximum = budget * (1 + TIME_BUDGET_TOLERANCE);
 
   if (
     pack.stats.totalEstMinutes < minimum ||
     pack.stats.totalEstMinutes > maximum
   ) {
     errors.push(
-      `stats.totalEstMinutes must be within 20% of intake time budget (${String(minimum)}-${String(maximum)}); received ${String(pack.stats.totalEstMinutes)}`,
+      `stats.totalEstMinutes must be within 20% of intake time budget (${minimum}-${maximum}); received ${pack.stats.totalEstMinutes}`,
     );
   }
 

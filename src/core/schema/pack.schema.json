@@ -94,6 +94,26 @@
       }
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "confidence": {
+            "enum": ["high", "medium"]
+          }
+        },
+        "required": ["confidence"]
+      },
+      "then": {
+        "properties": {
+          "resources": {
+            "type": "array",
+            "minItems": 8
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "intake": {
       "type": "object",
@@ -185,8 +205,8 @@
           "minLength": 1
         },
         "estMinutes": {
-          "type": "number",
-          "exclusiveMinimum": 0
+          "type": "integer",
+          "minimum": 1
         },
         "scores": {
           "$ref": "#/$defs/scores"

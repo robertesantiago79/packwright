@@ -3,10 +3,12 @@ import { describe, expect, it } from "vitest";
 import { renderPack } from "../src/core/packgen/render.js";
 import { validatePack } from "../src/core/schema/validate.js";
 import {
+  highConfidenceSparsePack,
   missingRequiredFieldPack,
   pathResourceMismatchPack,
   timeBudgetViolationPack,
   validPack,
+  zeroEstimatePack,
 } from "./fixtures/packs.js";
 
 describe("validatePack", () => {
@@ -44,6 +46,22 @@ describe("validatePack", () => {
     expect(result.valid).toBe(false);
     expect(result.errors).toContain(
       "stats.totalEstMinutes must be within 20% of intake time budget (12-18); received 30",
+    );
+  });
+
+  it("rejects a high-confidence pack with fewer than eight resources", () => {
+    const result = validatePack(highConfidenceSparsePack);
+
+    expect(result.valid).toBe(false);
+    expect(result.errors).toContain("/resources must NOT have fewer than 8 items");
+  });
+
+  it("rejects a resource with a zero-minute estimate", () => {
+    const result = validatePack(zeroEstimatePack);
+
+    expect(result.valid).toBe(false);
+    expect(result.errors).toContain(
+      "/resources/0/estMinutes must be >= 1",
     );
   });
 });

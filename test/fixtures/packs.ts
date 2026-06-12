@@ -163,3 +163,19 @@ mismatchedPath.path[4] = {
 export const timeBudgetViolationPack: unknown = structuredClone(validPack);
 const overBudgetPack = timeBudgetViolationPack as ContextPack;
 overBudgetPack.intake.timeBudgetMin = 15;
+
+export const highConfidenceSparsePack: unknown = structuredClone(validPack);
+const sparsePack = highConfidenceSparsePack as ContextPack;
+sparsePack.confidence = "high";
+sparsePack.confidenceNotes = [];
+
+export const zeroEstimatePack: unknown = structuredClone(validPack);
+const zeroEstimate = zeroEstimatePack as ContextPack;
+const firstResource = zeroEstimate.resources[0];
+if (firstResource === undefined) {
+  throw new Error("Fixture requires at least one resource");
+}
+zeroEstimate.resources[0] = {
+  ...firstResource,
+  estMinutes: 0,
+};

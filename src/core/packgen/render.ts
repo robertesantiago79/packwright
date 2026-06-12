@@ -34,10 +34,10 @@ export function renderPack(pack: ContextPack): string {
       }
 
       return [
-        `### ${String(item.position)}. ${ROLE_HEADINGS[item.role]}: ${resource.title}`,
+        `### ${item.position}. ${ROLE_HEADINGS[item.role]}: ${resource.title}`,
         "",
         `- Type: ${resource.type}`,
-        `- Estimated time: ${String(resource.estMinutes)} minutes`,
+        `- Estimated time: ${resource.estMinutes} minutes`,
         `- Source: [${resource.url}](${resource.url})`,
         `- Why it matters: ${resource.rationale}`,
       ].join("\n");
@@ -51,7 +51,7 @@ export function renderPack(pack: ContextPack): string {
     "",
     `- Stage: ${pack.intake.stage}`,
     `- Depth: ${pack.intake.depth ?? "medium"}`,
-    `- Time budget: ${String(pack.intake.timeBudgetMin ?? 30)} minutes`,
+    `- Time budget: ${pack.intake.timeBudgetMin ?? 30} minutes`,
     `- Confidence: ${pack.confidence}`,
     `- Pack ID: ${pack.packId}`,
     `- Created: ${pack.createdAt}`,
