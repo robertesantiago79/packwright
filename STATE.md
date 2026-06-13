@@ -1,13 +1,14 @@
 # Build State
 
-- Current slice: S2.1c - State Truth Correction
-- Status: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 3a - Provider Foundation
+- Status: ACCEPTANCE PASSED - AWAITING CONTROLLER GATE REVIEW
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
   - S1.1 implementation deviations: None.
   - Slice 2 implementation deviations: None.
   - S2.1 implementation deviations: None.
+  - Slice 3a implementation deviations: None.
 - Pending forks:
   - Governance ratifications #2-#4 remain PENDING per controller instruction.
   - Full TypeScript-to-JSON-Schema code generation is deferred; the enum-parity canary partially mitigates dual-contract drift risk.
@@ -21,8 +22,11 @@
 - S2.1a - Audit Gate Remediation: PROMOTED (controller accepted; commit `b6f0742`)
 - S2.1 - Drift Guards: PROMOTED (controller accepted; commit `90d054bb197f033c20df6794b55555b1fefcbc8c`)
 - S2.1b - Promotion Record: PROMOTED (controller accepted; commit `673beb907f195a2a73be4f9ce1e4442a6ad05d44`)
+- S2.1c - State Truth Correction: PROMOTED (controller accepted; commit `92deaaf07a545f00b820b99be5fa1af44e5167bc`)
 - Slice 3 Preflight: COMPLETE / READ-ONLY / NO FILES CHANGED / CONTROLLER ACCEPTED
-- Slice 3 - Provider Abstraction + Curated Provider: HOLD until Owner/Controller explicitly opens the next slice
+- Slice 3a - Provider Foundation: IMPLEMENTED / GATED / PENDING CONTROLLER REVIEW
+- Full Slice 3 Corpus Acceptance: HOLD pending a credible 60-100 entry seed corpus and OmniAgent acceptance fixture
+- Slice 4 - Scoring: HOLD
 
 ## Amendments
 
@@ -40,6 +44,8 @@
 ## Known Limitations
 
 - The sentence-count heuristic splits on punctuation and can falsely split abbreviations such as `e.g.`. This is a known risk, not a current blocker; correction requires a dedicated sentence-boundary slice.
+- Slice 3a curated source loading supports a strict JSON-compatible YAML subset only. General YAML syntax requires a separately authorized parser dependency.
+- Slice 3a matching is exact lowercase token overlap without stemming, synonyms, or semantic expansion.
 
 ## Standing Gate
 
@@ -53,15 +59,15 @@
 - Zero-domain-noun detection is a deterministic list-driven heuristic using exported `STOPWORDS` and `GENERIC_TERMS`; no NLP dependency is used.
 - No additional contingent decisions were required.
 
-## Slice 3 Preflight Decisions Pending
+## Slice 3a Decisions Applied
 
-- Seed corpus and OmniAgent acceptance fixture.
-- `CandidateResource` shape.
-- YAML parser/dependency choice.
-- URL canonicalization and hash rule.
-- Duplicate precedence.
-- Matching, tie-break, and cap semantics.
-- Future metadata fields including tier, patterns, and `estMinutes`.
+- `CandidateResource` remains internal and carries URL identity, tags, domains, provider metadata, and optional tier, patterns, and `estMinutes`.
+- Curated fixtures use dependency-free JSON-compatible YAML parsing with required-field validation.
+- URL identity uses canonical URL SHA-256 with `url-sha256:` plus the first 16 hex characters for candidate IDs.
+- Duplicate precedence keeps the earliest provider, then earliest file entry; metadata is not merged.
+- Matching uses tag/domain token overlap, descending overlap order, and original order as the deterministic tie-break.
+- Provider caps are honored; aggregation enforces a global maximum of 60; non-positive caps return an empty list.
+- Full 40-60 candidate acceptance remains pending the controller-owned 60-100 entry production corpus and acceptance fixture.
 
 ## Verification
 
@@ -98,3 +104,7 @@
 - S2.1c `npm test`: PASS (27 tests)
 - S2.1c `npm run lint`: PASS
 - S2.1c `npm audit`: PASS (0 vulnerabilities)
+- Slice 3a `npm run build`: PASS
+- Slice 3a `npm test`: PASS (37 tests)
+- Slice 3a `npm run lint`: PASS
+- Slice 3a `npm audit`: PASS (0 vulnerabilities)

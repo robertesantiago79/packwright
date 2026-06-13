@@ -1,0 +1,42 @@
+[
+  {
+    "url": "HTTPS://Example.COM/product-workflow/?b=2&a=1#overview",
+    "title": "AI Product Workflow Guide",
+    "type": "doc",
+    "tags": ["AI", "Product", "Workflow"],
+    "domains": ["Product Building"],
+    "sourceTier": "primary",
+    "patterns": ["Ground recommendations in explicit evidence."],
+    "estMinutes": 8
+  },
+  {
+    "url": "https://example.com/automation",
+    "title": "Automation Design Examples",
+    "type": "example",
+    "tags": ["Automation"],
+    "domains": ["Product"],
+    "sourceTier": "example"
+  },
+  {
+    "url": "https://example.com/research",
+    "title": "Product Research Reference",
+    "type": "doc",
+    "tags": ["Research"],
+    "domains": ["Product"],
+    "sourceTier": "reference"
+  },
+  {
+    "url": "https://example.com/product-workflow?a=1&b=2",
+    "title": "Duplicate Workflow Entry",
+    "type": "video",
+    "tags": ["AI", "Product", "Workflow"],
+    "domains": ["Product Building"]
+  },
+  {
+    "url": "https://example.com/unrelated",
+    "title": "Unrelated Resource",
+    "type": "visual",
+    "tags": ["Gardening"],
+    "domains": ["Horticulture"]
+  }
+]
