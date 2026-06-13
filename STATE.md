@@ -1,12 +1,13 @@
 # Build State
 
-- Current slice: Slice 2 - Intake + Taxonomy
+- Current slice: S2.1 - Drift Guards
 - Status: ACCEPTANCE PASSED - AWAITING CONTROLLER GATE REVIEW
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
   - S1.1 implementation deviations: None.
   - Slice 2 implementation deviations: None.
+  - S2.1 implementation deviations: None.
 - Pending forks:
   - Governance ratifications #2-#4 remain PENDING per controller instruction.
   - Full TypeScript-to-JSON-Schema code generation is deferred; the enum-parity canary partially mitigates dual-contract drift risk.
@@ -16,6 +17,9 @@
 - Slice 0 - Scaffold: PROMOTED (controller gate passed; pushed to `origin/main`)
 - Slice 1 - Schema + Validator + Renderer: PROMOTED
 - S1.1 - Contract Hardening + Quality Fixes: PROMOTED (controller gate passed; commit `e036976` verified at `origin/main`)
+- Slice 2 - Intake + Taxonomy: PROMOTED (controller accepted; commit `a0fcd42df67a62a9a55a0d609abc390e2ad28142`)
+- S2.1 - Drift Guards: IMPLEMENTED / GATED / PENDING CONTROLLER REVIEW (follow-up hardening only)
+- Slice 3 - Provider Abstraction + Curated Provider: HOLD pending S2.1 controller review
 
 ## Amendments
 
@@ -26,12 +30,18 @@
 - S1.1: Resource stacks are capped at 20; high/medium-confidence packs require at least 8 resources, while low-confidence packs may contain 1-20.
 - S1.1: `Resource.estMinutes` is an integer with a minimum value of 1.
 - S1.1: TypeScript unions and JSON Schema enums remain dual contract sources. A parity canary covers stage, role, resource type, depth, and confidence; schema code generation is the deferred full fix.
+- Length-bound literals `20-600` and `1-80` exist in TypeScript comments, JSON Schema, and `normalize.ts`; this remains a drift risk until future work centralizes those bounds.
 - Slice 2 erratum: The short-description vague-input trigger is superseded by the `Intake.description` length contract. Descriptions under 20 characters are malformed and rejected, not marked low-confidence.
 - Slice 2 ruling: Zero-domain-noun detection uses a deterministic exported stopword/generic-term list heuristic after hard validation; no NLP dependency is introduced.
+
+## Known Limitations
+
+- The sentence-count heuristic splits on punctuation and can falsely split abbreviations such as `e.g.`. This is a known risk, not a current blocker; correction requires a dedicated sentence-boundary slice.
 
 ## Standing Gate
 
 - `npm audit` is required for this and all subsequent slice gates.
+- S2.1a audit remediation pins Vite's transitive `esbuild` to `0.28.1` through an npm override, avoiding a Vitest major-version migration.
 
 ## Slice 2 Decisions Applied
 
@@ -58,3 +68,11 @@
 - Slice 2 `npm test`: PASS (26 tests)
 - Slice 2 `npm run lint`: PASS
 - Slice 2 `npm audit`: PASS (0 vulnerabilities)
+- S2.1a `npm run build`: PASS
+- S2.1a `npm test`: PASS (26 tests)
+- S2.1a `npm run lint`: PASS
+- S2.1a `npm audit`: PASS (0 vulnerabilities)
+- S2.1 final `npm run build`: PASS
+- S2.1 final `npm test`: PASS (27 tests)
+- S2.1 final `npm run lint`: PASS
+- S2.1 final `npm audit`: PASS (0 vulnerabilities)

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import packSchema from "../src/core/schema/pack.schema.json" with {
   type: "json",
 };
+import { defineUnionMembers } from "../src/core/schema/unionMembers.js";
 import type {
   Confidence,
   Depth,
@@ -10,12 +11,6 @@ import type {
   ResourceType,
   Stage,
 } from "../src/core/schema/types.js";
-
-function defineUnionMembers<Union extends string>() {
-  return <Members extends readonly Union[]>(
-    members: Exclude<Union, Members[number]> extends never ? Members : never,
-  ): Members => members;
-}
 
 function sorted(values: readonly string[]): string[] {
   return [...values].sort();

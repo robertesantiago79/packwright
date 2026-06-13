@@ -5,6 +5,7 @@ import type {
   Stage,
   TimeBudget,
 } from "../schema/types.js";
+import { defineUnionMembers } from "../schema/unionMembers.js";
 import { GENERIC_TERMS, STOPWORDS } from "./constants.js";
 
 export interface NormalizedIntake extends Intake {
@@ -26,9 +27,16 @@ export class IntakeValidationError extends Error {
   }
 }
 
-const STAGES = new Set<Stage>(["discovery", "prd"]);
-const DEPTHS = new Set<Depth>(["light", "medium", "deep"]);
-const TIME_BUDGETS = new Set<TimeBudget>([15, 30, 60]);
+const STAGE_MEMBERS = defineUnionMembers<Stage>()(["discovery", "prd"]);
+const DEPTH_MEMBERS = defineUnionMembers<Depth>()([
+  "light",
+  "medium",
+  "deep",
+]);
+const TIME_BUDGET_MEMBERS = defineUnionMembers<TimeBudget>()([15, 30, 60]);
+const STAGES = new Set<Stage>(STAGE_MEMBERS);
+const DEPTHS = new Set<Depth>(DEPTH_MEMBERS);
+const TIME_BUDGETS = new Set<TimeBudget>(TIME_BUDGET_MEMBERS);
 const RESOURCE_TYPES = [
   "doc",
   "video",
