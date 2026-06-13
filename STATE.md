@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: S2.1 - Drift Guards
-- Status: ACCEPTANCE PASSED - AWAITING CONTROLLER GATE REVIEW
+- Current slice: S2.1b - Promotion Record
+- Status: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -18,8 +18,9 @@
 - Slice 1 - Schema + Validator + Renderer: PROMOTED
 - S1.1 - Contract Hardening + Quality Fixes: PROMOTED (controller gate passed; commit `e036976` verified at `origin/main`)
 - Slice 2 - Intake + Taxonomy: PROMOTED (controller accepted; commit `a0fcd42df67a62a9a55a0d609abc390e2ad28142`)
-- S2.1 - Drift Guards: IMPLEMENTED / GATED / PENDING CONTROLLER REVIEW (follow-up hardening only)
-- Slice 3 - Provider Abstraction + Curated Provider: HOLD pending S2.1 controller review
+- S2.1a - Audit Gate Remediation: PROMOTED (controller accepted; commit `b6f0742`)
+- S2.1 - Drift Guards: PROMOTED (controller accepted; commit `90d054bb197f033c20df6794b55555b1fefcbc8c`)
+- Slice 3 - Provider Abstraction + Curated Provider: HOLD until Owner/Controller explicitly opens the next slice
 
 ## Amendments
 
@@ -42,6 +43,7 @@
 
 - `npm audit` is required for this and all subsequent slice gates.
 - S2.1a audit remediation pins Vite's transitive `esbuild` to `0.28.1` through an npm override, avoiding a Vitest major-version migration.
+- The Vite/esbuild override compatibility remains a monitored risk; the accepted S2.1 gate passed with 0 vulnerabilities.
 
 ## Slice 2 Decisions Applied
 
@@ -76,3 +78,7 @@
 - S2.1 final `npm test`: PASS (27 tests)
 - S2.1 final `npm run lint`: PASS
 - S2.1 final `npm audit`: PASS (0 vulnerabilities)
+- S2.1b `npm run build`: PASS
+- S2.1b `npm test`: PASS (27 tests)
+- S2.1b `npm run lint`: PASS
+- S2.1b `npm audit`: PASS (0 vulnerabilities)
