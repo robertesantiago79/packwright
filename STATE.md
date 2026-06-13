@@ -1,6 +1,6 @@
 # Build State
 
-- Current slice: S2.1b - Promotion Record
+- Current slice: S2.1c - State Truth Correction
 - Status: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
@@ -20,6 +20,8 @@
 - Slice 2 - Intake + Taxonomy: PROMOTED (controller accepted; commit `a0fcd42df67a62a9a55a0d609abc390e2ad28142`)
 - S2.1a - Audit Gate Remediation: PROMOTED (controller accepted; commit `b6f0742`)
 - S2.1 - Drift Guards: PROMOTED (controller accepted; commit `90d054bb197f033c20df6794b55555b1fefcbc8c`)
+- S2.1b - Promotion Record: PROMOTED (controller accepted; commit `673beb907f195a2a73be4f9ce1e4442a6ad05d44`)
+- Slice 3 Preflight: COMPLETE / READ-ONLY / NO FILES CHANGED / CONTROLLER ACCEPTED
 - Slice 3 - Provider Abstraction + Curated Provider: HOLD until Owner/Controller explicitly opens the next slice
 
 ## Amendments
@@ -50,6 +52,16 @@
 - Sub-20-character descriptions are rejected before vague-input analysis under the binding `Intake.description` contract.
 - Zero-domain-noun detection is a deterministic list-driven heuristic using exported `STOPWORDS` and `GENERIC_TERMS`; no NLP dependency is used.
 - No additional contingent decisions were required.
+
+## Slice 3 Preflight Decisions Pending
+
+- Seed corpus and OmniAgent acceptance fixture.
+- `CandidateResource` shape.
+- YAML parser/dependency choice.
+- URL canonicalization and hash rule.
+- Duplicate precedence.
+- Matching, tie-break, and cap semantics.
+- Future metadata fields including tier, patterns, and `estMinutes`.
 
 ## Verification
 
@@ -82,3 +94,7 @@
 - S2.1b `npm test`: PASS (27 tests)
 - S2.1b `npm run lint`: PASS
 - S2.1b `npm audit`: PASS (0 vulnerabilities)
+- S2.1c `npm run build`: PASS
+- S2.1c `npm test`: PASS (27 tests)
+- S2.1c `npm run lint`: PASS
+- S2.1c `npm audit`: PASS (0 vulnerabilities)
