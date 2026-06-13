@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 3a - Provider Foundation
-- Status: ACCEPTANCE PASSED - AWAITING CONTROLLER GATE REVIEW
+- Current slice: Slice 3a.1 - Promotion Record
+- Status: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -24,9 +24,10 @@
 - S2.1b - Promotion Record: PROMOTED (controller accepted; commit `673beb907f195a2a73be4f9ce1e4442a6ad05d44`)
 - S2.1c - State Truth Correction: PROMOTED (controller accepted; commit `92deaaf07a545f00b820b99be5fa1af44e5167bc`)
 - Slice 3 Preflight: COMPLETE / READ-ONLY / NO FILES CHANGED / CONTROLLER ACCEPTED
-- Slice 3a - Provider Foundation: IMPLEMENTED / GATED / PENDING CONTROLLER REVIEW
+- Slice 3a - Provider Foundation: PROMOTED (controller accepted; commit `0be285b8585abe389fc31a87e8fa37554c61a87c`)
+- Slice 3b - Corpus + Full Acceptance Planning: ELIGIBLE only under a separate Owner/Controller packet
 - Full Slice 3 Corpus Acceptance: HOLD pending a credible 60-100 entry seed corpus and OmniAgent acceptance fixture
-- Slice 4 - Scoring: HOLD
+- Slice 4+ - Scoring and Later Slices: HOLD
 
 ## Amendments
 
@@ -108,3 +109,7 @@
 - Slice 3a `npm test`: PASS (37 tests)
 - Slice 3a `npm run lint`: PASS
 - Slice 3a `npm audit`: PASS (0 vulnerabilities)
+- Slice 3a.1 `npm run build`: PASS
+- Slice 3a.1 `npm test`: PASS (37 tests)
+- Slice 3a.1 `npm run lint`: PASS
+- Slice 3a.1 `npm audit`: PASS (0 vulnerabilities)
