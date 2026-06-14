@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 4a - Scoring Design Record
-- Status: DESIGN RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 4b - Scoring Foundation Implementation
+- Status: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER REVIEW
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -30,10 +30,11 @@
 - Full Slice 3 Corpus Acceptance: PROMOTED (controller accepted)
 - Slice 3 Overall: CLOSED / PROMOTED / REPO-RECORDED
 - Slice 4 Preflight: COMPLETE / READ-ONLY / NO FILES CHANGED / CONTROLLER ACCEPTED (baseline `193e266a2c711de40b5742e4f06fedc2fa2ca760`)
-- Slice 4a - Scoring Design Record: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
-- Slice 4 Implementation: HOLD
+- Slice 4a - Scoring Design Record: CONTROLLER ACCEPTED (commit `1a27db95ef1d4a0792e3988ad30e8ec54b6cbaa1`)
+- Slice 4b - Scoring Foundation Implementation: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER REVIEW
+- Scoring behavior promotion: HOLD pending Controller review and product-quality Owner validation
 - Slice 4+ Later Slices: HOLD
-- Next eligible work: Slice 4b scoring foundation implementation under a separate Controller packet; not authorized by this design record.
+- Next eligible work: HOLD pending Controller review; no later slice is authorized.
 
 ## Amendments
 
@@ -102,7 +103,17 @@
 - Slice 4b excludes sequencing, resource-mix enforcement, time-budget selection, source preferences, rationales or explanations, pack generation, CLI or UI changes, provider or corpus changes, dependencies, and semantic matching.
 - UI/UX Owner validation is not required unless a visible interface is added later.
 - Product-quality Owner validation is required after scoring implementation produces ranked sample outputs and before scoring behavior is promoted.
-- Slice 4b scoring foundation implementation remains unauthorized pending a separate Controller packet.
+- Slice 4b scoring foundation implementation was authorized under a separate Controller packet.
+
+## Slice 4b Scoring Foundation
+
+- Files changed: `src/core/scoring/scoring.ts`, `src/core/scoring/index.ts`, `test/scoring.test.ts`, and `STATE.md`; the scoring placeholder `.gitkeep` was removed.
+- Pure lexical scoring produces clamped stage relevance, topical match, signal quality, and composite scores without mutating Slice 3 candidates.
+- Composite scoring uses the accepted `0.45`, `0.35`, and `0.20` weights; threshold filtering uses `0.35`; both remain marked `// TUNABLE`.
+- Deterministic ranking applies the accepted score-dimension, original-order, URL, and ID tie-break sequence.
+- No provider, corpus, sequencing, resource-mix, time-budget, source-preference, rationale, pack-generation, CLI, UI, dependency, stemming, embedding, semantic-expansion, or LLM behavior changed.
+- Scoring behavior is not promoted. Product-quality Owner validation remains required after ranked sample outputs exist.
+- Later Slice 4+ work remains HOLD pending Controller review.
 
 ## Verification
 
@@ -159,3 +170,7 @@
 - Slice 4a `npm test`: PASS (38 tests)
 - Slice 4a `npm run lint`: PASS
 - Slice 4a `npm audit`: PASS (0 vulnerabilities)
+- Slice 4b `npm run build`: PASS
+- Slice 4b `npm test`: PASS (46 tests)
+- Slice 4b `npm run lint`: PASS
+- Slice 4b `npm audit`: PASS (0 vulnerabilities)
