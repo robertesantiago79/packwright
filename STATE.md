@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 3b.2 - Promotion Record
-- Status: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 4a - Scoring Design Record
+- Status: DESIGN RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -29,8 +29,11 @@
 - Slice 3b.1 - Production Corpus Insertion + Full Acceptance Test: PROMOTED (controller accepted; commit `1ae4ecd112d6f83ec87cf25692b9e152af7597ab`)
 - Full Slice 3 Corpus Acceptance: PROMOTED (controller accepted)
 - Slice 3 Overall: CLOSED / PROMOTED / REPO-RECORDED
-- Slice 4+ - Scoring and Later Slices: HOLD
-- Next eligible work: Slice 4 scoring preflight/planning under a separate Owner/Controller packet; not authorized by this closeout.
+- Slice 4 Preflight: COMPLETE / READ-ONLY / NO FILES CHANGED / CONTROLLER ACCEPTED (baseline `193e266a2c711de40b5742e4f06fedc2fa2ca760`)
+- Slice 4a - Scoring Design Record: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
+- Slice 4 Implementation: HOLD
+- Slice 4+ Later Slices: HOLD
+- Next eligible work: Slice 4b scoring foundation implementation under a separate Controller packet; not authorized by this design record.
 
 ## Amendments
 
@@ -83,6 +86,24 @@
 - Full Slice 3 corpus acceptance is promoted and controller accepted.
 - Slice 4+ remains HOLD.
 
+## Slice 4a Scoring Design Decisions
+
+- Score shape: `stageRelevance`, `topicalMatch`, `signalQuality`, and `composite` are numbers clamped from 0 to 1.
+- Composite formula: `0.45 * stageRelevance + 0.35 * topicalMatch + 0.20 * signalQuality`.
+- The composite formula and the `0.35` filter threshold must carry `// TUNABLE` markers in implementation.
+- Promoted corpus tiers remain unchanged. Signal quality maps `primary` to `1.0`, `reference` to `0.7`, `example` to `0.4`, and missing or unknown tiers to `0.4`.
+- Stage relevance uses lexical, token-level matching against existing taxonomy cues and anti-cues. Positive cue matches normalize to 0-1; anti-cues apply a penalty clamped to 0-1.
+- Stage relevance does not use stemming, embeddings, LLM calls, or semantic expansion.
+- Topical match compares candidate title, tags, and domains with intake project-name and description tokens, normalized to 0-1. Candidate body text is not assumed.
+- Deterministic ranking tie-break order is higher composite, higher stage relevance, higher topical match, higher signal quality, lower original input order, then stable URL or ID lexical fallback.
+- Internal calculations may use raw floating point. Returned scores are clamped to 0-1; tests avoid brittle excessive precision. If output rounding is required for stability, use four decimal places.
+- Scoring must not mutate candidate inputs.
+- Slice 4b scope may include pure scoring functions, a scored-candidate type, threshold filtering, deterministic ranking, focused scoring tests, and compatibility with Slice 3 candidates.
+- Slice 4b excludes sequencing, resource-mix enforcement, time-budget selection, source preferences, rationales or explanations, pack generation, CLI or UI changes, provider or corpus changes, dependencies, and semantic matching.
+- UI/UX Owner validation is not required unless a visible interface is added later.
+- Product-quality Owner validation is required after scoring implementation produces ranked sample outputs and before scoring behavior is promoted.
+- Slice 4b scoring foundation implementation remains unauthorized pending a separate Controller packet.
+
 ## Verification
 
 - `npm run build`: PASS
@@ -134,3 +155,7 @@
 - Slice 3b.2 `npm test`: PASS (38 tests)
 - Slice 3b.2 `npm run lint`: PASS
 - Slice 3b.2 `npm audit`: PASS (0 vulnerabilities)
+- Slice 4a `npm run build`: PASS
+- Slice 4a `npm test`: PASS (38 tests)
+- Slice 4a `npm run lint`: PASS
+- Slice 4a `npm audit`: PASS (0 vulnerabilities)
