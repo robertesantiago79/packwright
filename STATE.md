@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 3b.1 - Production Corpus Insertion + Full Acceptance Test
-- Status: ACCEPTANCE PASSED - AWAITING CONTROLLER GATE REVIEW
+- Current slice: Slice 3b.2 - Promotion Record
+- Status: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -26,9 +26,11 @@
 - Slice 3 Preflight: COMPLETE / READ-ONLY / NO FILES CHANGED / CONTROLLER ACCEPTED
 - Slice 3a - Provider Foundation: PROMOTED (controller accepted; commit `0be285b8585abe389fc31a87e8fa37554c61a87c`)
 - Slice 3b - Corpus + Full Acceptance Planning: COMPLETE (72-entry candidate accepted for repo-backed validation)
-- Slice 3b.1 - Production Corpus Insertion + Full Acceptance Test: IMPLEMENTED / GATED / PENDING CONTROLLER REVIEW
-- Full Slice 3 Corpus Acceptance: IMPLEMENTED / GATED / PENDING CONTROLLER REVIEW
+- Slice 3b.1 - Production Corpus Insertion + Full Acceptance Test: PROMOTED (controller accepted; commit `1ae4ecd112d6f83ec87cf25692b9e152af7597ab`)
+- Full Slice 3 Corpus Acceptance: PROMOTED (controller accepted)
+- Slice 3 Overall: CLOSED / PROMOTED / REPO-RECORDED
 - Slice 4+ - Scoring and Later Slices: HOLD
+- Next eligible work: Slice 4 scoring preflight/planning under a separate Owner/Controller packet; not authorized by this closeout.
 
 ## Amendments
 
@@ -48,6 +50,8 @@
 - The sentence-count heuristic splits on punctuation and can falsely split abbreviations such as `e.g.`. This is a known risk, not a current blocker; correction requires a dedicated sentence-boundary slice.
 - Slice 3a curated source loading supports a strict JSON-compatible YAML subset only. General YAML syntax requires a separately authorized parser dependency.
 - Slice 3a matching is exact lowercase token overlap without stemming, synonyms, or semantic expansion.
+- Production corpus URLs were not live-tested during Slice 3 acceptance.
+- Direct PDF extraction remains a known risk for corpus entries that link to PDF resources.
 
 ## Standing Gate
 
@@ -69,14 +73,14 @@
 - Duplicate precedence keeps the earliest provider, then earliest file entry; metadata is not merged.
 - Matching uses tag/domain token overlap, descending overlap order, and original order as the deterministic tie-break.
 - Provider caps are honored; aggregation enforces a global maximum of 60; non-positive caps return an empty list.
-- Full 40-60 candidate acceptance remains pending the controller-owned 60-100 entry production corpus and acceptance fixture.
+- Full 40-60 candidate acceptance passed with the controller-accepted 72-entry production corpus and OmniAgent acceptance fixture.
 
 ## Slice 3b.1 Corpus
 
 - `sources/product-building.yaml` contains 72 reviewed entries in the supported JSON-compatible YAML subset.
 - The production corpus acceptance test loads the file through the curated source loader and provider.
 - The acceptance test returns 60 deterministic, deduplicated candidates for the OmniAgent corpus intake.
-- Full Slice 3 corpus acceptance remains pending Controller review.
+- Full Slice 3 corpus acceptance is promoted and controller accepted.
 - Slice 4+ remains HOLD.
 
 ## Verification
@@ -126,3 +130,7 @@
 - Slice 3b.1 `npm test`: PASS (38 tests)
 - Slice 3b.1 `npm run lint`: PASS
 - Slice 3b.1 `npm audit`: PASS (0 vulnerabilities)
+- Slice 3b.2 `npm run build`: PASS
+- Slice 3b.2 `npm test`: PASS (38 tests)
+- Slice 3b.2 `npm run lint`: PASS
+- Slice 3b.2 `npm audit`: PASS (0 vulnerabilities)
