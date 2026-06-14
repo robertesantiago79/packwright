@@ -1,0 +1,722 @@
+[
+  {
+    "url": "https://www.gov.uk/service-manual/agile-delivery/how-the-discovery-phase-works",
+    "title": "How the Discovery Phase Works",
+    "type": "doc",
+    "tags": ["product", "research", "planning", "workflow", "design"],
+    "domains": ["product building", "product discovery"],
+    "sourceTier": "primary",
+    "patterns": ["Use to frame discovery questions, constraints, evidence, and exit decisions."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://www.gov.uk/service-manual/user-research/start-by-learning-user-needs",
+    "title": "Learning About Users and Their Needs",
+    "type": "doc",
+    "tags": ["product", "research", "design", "learning", "context"],
+    "domains": ["product building", "product discovery"],
+    "sourceTier": "primary",
+    "patterns": ["Use to ground requirements in researched user needs rather than proposed features."],
+    "estMinutes": 12
+  },
+  {
+    "url": "https://www.gov.uk/service-manual/user-research/plan-user-research-for-your-service",
+    "title": "Plan User Research for Your Service",
+    "type": "doc",
+    "tags": ["product", "research", "planning", "workflow", "learning"],
+    "domains": ["product building", "research"],
+    "sourceTier": "primary",
+    "patterns": ["Use to turn assumptions into prioritized research questions and research rounds."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://www.gov.uk/service-manual/service-standard",
+    "title": "GOV.UK Service Standard",
+    "type": "doc",
+    "tags": ["product", "design", "software", "evaluation", "governance"],
+    "domains": ["product building", "release readiness"],
+    "sourceTier": "primary",
+    "patterns": ["Use as a cross-functional quality checklist for a product or service."],
+    "estMinutes": 10
+  },
+  {
+    "url": "https://playbook.usds.gov/",
+    "title": "Digital Services Playbook",
+    "type": "doc",
+    "tags": ["product", "workflow", "research", "software", "automation"],
+    "domains": ["product building", "release readiness"],
+    "sourceTier": "primary",
+    "patterns": ["Use its plays and key questions to review a product-building plan."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://www.nngroup.com/articles/design-thinking/",
+    "title": "Design Thinking 101",
+    "type": "doc",
+    "tags": ["product", "design", "research", "workflow", "learning"],
+    "domains": ["product building", "product discovery"],
+    "sourceTier": "reference",
+    "patterns": ["Use to introduce iterative discovery, prototyping, and user-centered design."],
+    "estMinutes": 12
+  },
+  {
+    "url": "https://basecamp.com/shapeup",
+    "title": "Shape Up: Stop Running in Circles and Ship Work That Matters",
+    "type": "doc",
+    "tags": ["product", "planning", "workflow", "software", "release"],
+    "domains": ["product building", "release readiness"],
+    "sourceTier": "reference",
+    "patterns": ["Use to compare bounded shaping and delivery cycles with backlog-driven planning."],
+    "estMinutes": 45
+  },
+  {
+    "url": "https://www.producttalk.org/opportunity-solution-trees/",
+    "title": "Opportunity Solution Trees",
+    "type": "visual",
+    "tags": ["product", "research", "planning", "design", "evaluation"],
+    "domains": ["product building", "product discovery"],
+    "sourceTier": "reference",
+    "patterns": ["Use to connect desired outcomes, opportunities, solutions, and experiments."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://www.atlassian.com/team-playbook/plays/daci",
+    "title": "DACI Decision-Making Framework",
+    "type": "example",
+    "tags": ["product", "planning", "workflow", "governance", "documentation"],
+    "domains": ["product building", "governance"],
+    "sourceTier": "example",
+    "patterns": ["Use as a template for recording decision roles and ownership."],
+    "estMinutes": 12
+  },
+  {
+    "url": "https://dschool.stanford.edu/tools/design-thinking-bootleg",
+    "title": "Design Thinking Bootleg",
+    "type": "doc",
+    "tags": ["product", "design", "research", "learning", "workflow"],
+    "domains": ["product building", "learning design"],
+    "sourceTier": "reference",
+    "patterns": ["Use selected methods to structure discovery and prototyping exercises."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/",
+    "title": "A Practical Guide to Building AI Agents",
+    "type": "doc",
+    "tags": ["ai", "agents", "product", "workflow", "automation"],
+    "domains": ["ai agents", "product building"],
+    "sourceTier": "primary",
+    "patterns": ["Use to decide when an agent is appropriate and how to structure its workflow."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://developers.openai.com/api/docs/guides/agents",
+    "title": "OpenAI Agents SDK Guide",
+    "type": "doc",
+    "tags": ["ai", "agents", "workflow", "automation", "software"],
+    "domains": ["ai agents", "product building"],
+    "sourceTier": "primary",
+    "patterns": ["Use as an implementation reference for tools, orchestration, guardrails, and tracing."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://openai.github.io/openai-agents-python/",
+    "title": "OpenAI Agents SDK for Python",
+    "type": "doc",
+    "tags": ["ai", "agents", "software", "automation", "evaluation"],
+    "domains": ["ai agents", "software delivery"],
+    "sourceTier": "primary",
+    "patterns": ["Use to ground Python agent examples in the supported SDK model."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://www.anthropic.com/engineering/building-effective-agents",
+    "title": "Building Effective Agents",
+    "type": "doc",
+    "tags": ["ai", "agents", "workflow", "automation", "evaluation"],
+    "domains": ["ai agents", "product building"],
+    "sourceTier": "primary",
+    "patterns": ["Use to compare workflow patterns with autonomous agent designs."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://modelcontextprotocol.io/docs/getting-started/intro",
+    "title": "Introduction to the Model Context Protocol",
+    "type": "doc",
+    "tags": ["ai", "agents", "context", "workflow", "software"],
+    "domains": ["ai agents", "context engineering"],
+    "sourceTier": "primary",
+    "patterns": ["Use to explain interoperable connections between AI applications, tools, and data."],
+    "estMinutes": 10
+  },
+  {
+    "url": "https://modelcontextprotocol.io/specification/2025-06-18",
+    "title": "Model Context Protocol Specification",
+    "type": "doc",
+    "tags": ["ai", "agents", "context", "software", "governance"],
+    "domains": ["ai agents", "context engineering"],
+    "sourceTier": "primary",
+    "patterns": ["Use as the normative reference when defining MCP-compatible components."],
+    "estMinutes": 40
+  },
+  {
+    "url": "https://adk.dev/agents/",
+    "title": "Agent Development Kit: Agents",
+    "type": "doc",
+    "tags": ["ai", "agents", "workflow", "automation", "software"],
+    "domains": ["ai agents", "product building"],
+    "sourceTier": "primary",
+    "patterns": ["Use to compare agent composition and orchestration approaches."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://microsoft.github.io/autogen/stable/user-guide/core-user-guide/design-patterns/intro.html",
+    "title": "AutoGen Agent Design Patterns",
+    "type": "example",
+    "tags": ["ai", "agents", "workflow", "automation", "design"],
+    "domains": ["ai agents", "product building"],
+    "sourceTier": "primary",
+    "patterns": ["Use its patterns as concrete examples of multi-agent coordination."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://docs.langchain.com/oss/python/langgraph/workflows-agents",
+    "title": "LangGraph Workflows and Agents",
+    "type": "doc",
+    "tags": ["ai", "agents", "workflow", "automation", "software"],
+    "domains": ["ai agents", "product building"],
+    "sourceTier": "primary",
+    "patterns": ["Use to compare deterministic workflows with dynamic agent control."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://docs.aws.amazon.com/bedrock/latest/userguide/agents-how.html",
+    "title": "How Amazon Bedrock Agents Works",
+    "type": "doc",
+    "tags": ["ai", "agents", "workflow", "automation", "software"],
+    "domains": ["ai agents", "product building"],
+    "sourceTier": "primary",
+    "patterns": ["Use as a reference architecture for planning, tool invocation, and knowledge retrieval."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns",
+    "title": "AI Agent Design Patterns",
+    "type": "doc",
+    "tags": ["ai", "agents", "workflow", "design", "automation"],
+    "domains": ["ai agents", "product building"],
+    "sourceTier": "primary",
+    "patterns": ["Use to select an orchestration pattern based on workflow and reliability needs."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://developers.openai.com/api/docs/guides/prompt-engineering",
+    "title": "OpenAI Prompt Engineering Guide",
+    "type": "doc",
+    "tags": ["ai", "context", "design", "evaluation", "documentation"],
+    "domains": ["context engineering", "ai agents"],
+    "sourceTier": "primary",
+    "patterns": ["Use to establish baseline prompt and instruction practices."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://developers.openai.com/api/docs/guides/function-calling",
+    "title": "OpenAI Function Calling Guide",
+    "type": "doc",
+    "tags": ["ai", "agents", "context", "automation", "software"],
+    "domains": ["context engineering", "ai agents"],
+    "sourceTier": "primary",
+    "patterns": ["Use to define tool contracts and structured agent actions."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
+    "title": "Claude Prompt Engineering Overview",
+    "type": "doc",
+    "tags": ["ai", "context", "design", "evaluation", "workflow"],
+    "domains": ["context engineering", "ai agents"],
+    "sourceTier": "primary",
+    "patterns": ["Use to connect success criteria and evaluations to prompt iteration."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/long-context-tips",
+    "title": "Long Context Prompting Tips",
+    "type": "doc",
+    "tags": ["ai", "context", "research", "documentation", "design"],
+    "domains": ["context engineering", "research"],
+    "sourceTier": "primary",
+    "patterns": ["Use when packaging large document sets or research evidence into context."],
+    "estMinutes": 12
+  },
+  {
+    "url": "https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/introduction-prompt-design",
+    "title": "Introduction to Prompt Design",
+    "type": "doc",
+    "tags": ["ai", "context", "design", "evaluation", "learning"],
+    "domains": ["context engineering", "learning design"],
+    "sourceTier": "primary",
+    "patterns": ["Use as a provider-neutral prompt design checklist."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/prompt-engineering",
+    "title": "Prompt Engineering Techniques",
+    "type": "doc",
+    "tags": ["ai", "context", "design", "evaluation", "software"],
+    "domains": ["context engineering", "ai agents"],
+    "sourceTier": "primary",
+    "patterns": ["Use to compare instruction, grounding, examples, and supporting content."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://modelcontextprotocol.io/specification/2025-06-18/server/prompts",
+    "title": "Model Context Protocol Prompts",
+    "type": "doc",
+    "tags": ["ai", "agents", "context", "documentation", "software"],
+    "domains": ["context engineering", "ai agents"],
+    "sourceTier": "primary",
+    "patterns": ["Use when defining reusable, discoverable prompt templates in MCP servers."],
+    "estMinutes": 12
+  },
+  {
+    "url": "https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html",
+    "title": "LLM Prompt Injection Prevention Cheat Sheet",
+    "type": "doc",
+    "tags": ["ai", "context", "evaluation", "governance", "agents"],
+    "domains": ["context engineering", "governance"],
+    "sourceTier": "primary",
+    "patterns": ["Use to add adversarial context and tool-use controls to agent requirements."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot",
+    "title": "Adding Repository Custom Instructions for GitHub Copilot",
+    "type": "doc",
+    "tags": ["ai", "context", "software", "documentation", "workflow"],
+    "domains": ["context engineering", "documentation"],
+    "sourceTier": "primary",
+    "patterns": ["Use as an example of durable repository-level instructions for coding agents."],
+    "estMinutes": 10
+  },
+  {
+    "url": "https://developers.openai.com/api/docs/guides/evals",
+    "title": "Working with Evals",
+    "type": "doc",
+    "tags": ["ai", "evaluation", "agents", "workflow", "product"],
+    "domains": ["evaluation", "ai agents"],
+    "sourceTier": "primary",
+    "patterns": ["Use to define repeatable evaluation datasets and testing workflows."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://developers.openai.com/api/docs/guides/graders",
+    "title": "OpenAI Graders",
+    "type": "doc",
+    "tags": ["ai", "evaluation", "automation", "agents", "software"],
+    "domains": ["evaluation", "ai agents"],
+    "sourceTier": "primary",
+    "patterns": ["Use to select deterministic, model-based, or combined grading methods."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://platform.claude.com/docs/en/test-and-evaluate/develop-tests",
+    "title": "Define Success Criteria and Build Evaluations",
+    "type": "doc",
+    "tags": ["ai", "evaluation", "product", "workflow", "research"],
+    "domains": ["evaluation", "product building"],
+    "sourceTier": "primary",
+    "patterns": ["Use to derive measurable evaluation criteria from product requirements."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://cloud.google.com/vertex-ai/generative-ai/docs/models/evaluation-overview",
+    "title": "Generative AI Evaluation Overview",
+    "type": "doc",
+    "tags": ["ai", "evaluation", "product", "automation", "software"],
+    "domains": ["evaluation", "ai agents"],
+    "sourceTier": "primary",
+    "patterns": ["Use to compare pointwise, pairwise, rubric, and computed evaluation methods."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://docs.langchain.com/langsmith/evaluation",
+    "title": "LangSmith Evaluation Concepts",
+    "type": "doc",
+    "tags": ["ai", "evaluation", "agents", "workflow", "automation"],
+    "domains": ["evaluation", "ai agents"],
+    "sourceTier": "primary",
+    "patterns": ["Use to structure offline evaluation and production feedback loops."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://crfm.stanford.edu/helm/latest/",
+    "title": "Holistic Evaluation of Language Models",
+    "type": "doc",
+    "tags": ["ai", "evaluation", "research", "governance", "learning"],
+    "domains": ["evaluation", "research"],
+    "sourceTier": "reference",
+    "patterns": ["Use to broaden evaluation beyond a single benchmark or accuracy measure."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://github.com/UKGovernmentBEIS/inspect_ai",
+    "title": "Inspect AI Evaluation Framework",
+    "type": "doc",
+    "tags": ["ai", "evaluation", "software", "automation", "agents"],
+    "domains": ["evaluation", "ai agents"],
+    "sourceTier": "primary",
+    "patterns": ["Use as a concrete framework for reproducible model and agent evaluations."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://research.google/pubs/the-ml-test-score-a-rubric-for-ml-production-readiness-and-technical-debt-reduction/",
+    "title": "The ML Test Score",
+    "type": "doc",
+    "tags": ["ai", "evaluation", "software", "release", "governance"],
+    "domains": ["evaluation", "release readiness"],
+    "sourceTier": "reference",
+    "patterns": ["Use its rubric to identify production-readiness gaps in AI systems."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://www.nist.gov/itl/ai-risk-management-framework/measure",
+    "title": "AI RMF Measure Function",
+    "type": "doc",
+    "tags": ["ai", "evaluation", "governance", "product", "research"],
+    "domains": ["evaluation", "governance"],
+    "sourceTier": "primary",
+    "patterns": ["Use to connect evaluation evidence with documented AI risk measurement."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://www.promptfoo.dev/docs/guides/evaluate-llm/",
+    "title": "Evaluate LLM Applications with Promptfoo",
+    "type": "example",
+    "tags": ["ai", "evaluation", "automation", "software", "workflow"],
+    "domains": ["evaluation", "software delivery"],
+    "sourceTier": "example",
+    "patterns": ["Use as an implementation example for automated prompt regression testing."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://dora.dev/capabilities/",
+    "title": "DORA Capability Catalog",
+    "type": "doc",
+    "tags": ["software", "release", "workflow", "automation", "learning"],
+    "domains": ["software delivery", "release readiness"],
+    "sourceTier": "primary",
+    "patterns": ["Use to select evidence-backed software delivery capabilities for a roadmap."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://dora.dev/capabilities/continuous-delivery/",
+    "title": "Continuous Delivery",
+    "type": "doc",
+    "tags": ["software", "release", "automation", "workflow", "evaluation"],
+    "domains": ["software delivery", "release readiness"],
+    "sourceTier": "primary",
+    "patterns": ["Use to define deployability, test automation, and release-process expectations."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://trunkbaseddevelopment.com/",
+    "title": "Trunk Based Development",
+    "type": "doc",
+    "tags": ["software", "release", "workflow", "automation", "documentation"],
+    "domains": ["software delivery", "release readiness"],
+    "sourceTier": "reference",
+    "patterns": ["Use to evaluate integration strategy and short-lived branch practices."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://sre.google/sre-book/release-engineering/",
+    "title": "Release Engineering",
+    "type": "doc",
+    "tags": ["software", "release", "automation", "workflow", "governance"],
+    "domains": ["software delivery", "release readiness"],
+    "sourceTier": "primary",
+    "patterns": ["Use to frame reproducible builds and controlled release processes."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://sre.google/workbook/canarying-releases/",
+    "title": "Canarying Releases",
+    "type": "doc",
+    "tags": ["software", "release", "evaluation", "automation", "workflow"],
+    "domains": ["software delivery", "release readiness"],
+    "sourceTier": "primary",
+    "patterns": ["Use to define incremental rollout metrics, comparison, and rollback decisions."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://docs.github.com/en/actions/about-github-actions/understanding-github-actions",
+    "title": "Understanding GitHub Actions",
+    "type": "doc",
+    "tags": ["software", "automation", "workflow", "release", "documentation"],
+    "domains": ["software delivery", "release readiness"],
+    "sourceTier": "primary",
+    "patterns": ["Use as a workflow automation reference for build, test, and release tasks."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://martinfowler.com/articles/practical-test-pyramid.html",
+    "title": "The Practical Test Pyramid",
+    "type": "doc",
+    "tags": ["software", "evaluation", "automation", "release", "design"],
+    "domains": ["software delivery", "evaluation"],
+    "sourceTier": "reference",
+    "patterns": ["Use to balance test layers and avoid slow, brittle test portfolios."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://semver.org/",
+    "title": "Semantic Versioning 2.0.0",
+    "type": "doc",
+    "tags": ["software", "release", "documentation", "governance", "product"],
+    "domains": ["software delivery", "release readiness"],
+    "sourceTier": "primary",
+    "patterns": ["Use to define versioning and compatibility expectations for packaged outputs."],
+    "estMinutes": 10
+  },
+  {
+    "url": "https://slsa.dev/spec/v1.1/",
+    "title": "SLSA Specification",
+    "type": "doc",
+    "tags": ["software", "release", "automation", "governance", "evaluation"],
+    "domains": ["software delivery", "governance"],
+    "sourceTier": "primary",
+    "patterns": ["Use to assess build provenance and software supply-chain controls."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://scorecard.dev/",
+    "title": "OpenSSF Scorecard",
+    "type": "doc",
+    "tags": ["software", "evaluation", "automation", "governance", "release"],
+    "domains": ["software delivery", "governance"],
+    "sourceTier": "primary",
+    "patterns": ["Use to identify automated checks for open-source security posture."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://diataxis.fr/",
+    "title": "Diátaxis Documentation Framework",
+    "type": "doc",
+    "tags": ["documentation", "design", "learning", "product", "workflow"],
+    "domains": ["documentation", "learning design"],
+    "sourceTier": "reference",
+    "patterns": ["Use to separate tutorials, how-to guides, reference, and explanation."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://www.writethedocs.org/guide/",
+    "title": "Write the Docs Guide",
+    "type": "doc",
+    "tags": ["documentation", "software", "workflow", "learning", "design"],
+    "domains": ["documentation", "learning design"],
+    "sourceTier": "reference",
+    "patterns": ["Use to plan documentation ownership, process, structure, and tooling."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://developers.google.com/style",
+    "title": "Google Developer Documentation Style Guide",
+    "type": "doc",
+    "tags": ["documentation", "software", "design", "product", "learning"],
+    "domains": ["documentation", "product building"],
+    "sourceTier": "primary",
+    "patterns": ["Use as an editing reference for clear technical documentation."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://learn.microsoft.com/en-us/style-guide/welcome/",
+    "title": "Microsoft Writing Style Guide",
+    "type": "doc",
+    "tags": ["documentation", "design", "product", "learning", "software"],
+    "domains": ["documentation", "learning design"],
+    "sourceTier": "primary",
+    "patterns": ["Use to standardize voice, terminology, instructions, and accessibility."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+    "title": "About Repository READMEs",
+    "type": "doc",
+    "tags": ["documentation", "software", "product", "workflow", "release"],
+    "domains": ["documentation", "software delivery"],
+    "sourceTier": "primary",
+    "patterns": ["Use to define the minimum orientation content for a repository or package."],
+    "estMinutes": 8
+  },
+  {
+    "url": "https://spec.openapis.org/oas/latest.html",
+    "title": "OpenAPI Specification",
+    "type": "doc",
+    "tags": ["documentation", "software", "automation", "agents", "governance"],
+    "domains": ["documentation", "software delivery"],
+    "sourceTier": "primary",
+    "patterns": ["Use as the normative reference for machine-readable HTTP API contracts."],
+    "estMinutes": 40
+  },
+  {
+    "url": "https://json-schema.org/learn/getting-started-step-by-step",
+    "title": "JSON Schema: Getting Started Step by Step",
+    "type": "doc",
+    "tags": ["documentation", "software", "automation", "context", "evaluation"],
+    "domains": ["documentation", "context engineering"],
+    "sourceTier": "primary",
+    "patterns": ["Use to define and validate structured data exchanged by agents and tools."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://www.writethedocs.org/guide/docs-as-code/",
+    "title": "Docs as Code",
+    "type": "doc",
+    "tags": ["documentation", "software", "workflow", "automation", "release"],
+    "domains": ["documentation", "software delivery"],
+    "sourceTier": "reference",
+    "patterns": ["Use to align documentation review and release with software workflows."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+    "title": "NIST AI Risk Management Framework",
+    "type": "doc",
+    "tags": ["ai", "governance", "evaluation", "product", "workflow"],
+    "domains": ["governance", "evaluation"],
+    "sourceTier": "primary",
+    "patterns": ["Use as the top-level structure for identifying and managing AI risks."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://airc.nist.gov/AI_RMF_Knowledge_Base/Playbook",
+    "title": "NIST AI RMF Playbook",
+    "type": "doc",
+    "tags": ["ai", "governance", "evaluation", "planning", "workflow"],
+    "domains": ["governance", "product building"],
+    "sourceTier": "primary",
+    "patterns": ["Use to turn AI RMF functions into practical actions and review questions."],
+    "estMinutes": 35
+  },
+  {
+    "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+    "title": "Artificial Intelligence Risk Management Framework: Generative AI Profile",
+    "type": "doc",
+    "tags": ["ai", "governance", "evaluation", "agents", "product"],
+    "domains": ["governance", "evaluation"],
+    "sourceTier": "primary",
+    "patterns": ["Use to add generative-AI-specific risks and mitigations to acceptance planning."],
+    "estMinutes": 45
+  },
+  {
+    "url": "https://genai.owasp.org/llm-top-10/",
+    "title": "OWASP Top 10 for LLM Applications",
+    "type": "doc",
+    "tags": ["ai", "governance", "evaluation", "agents", "software"],
+    "domains": ["governance", "ai agents"],
+    "sourceTier": "primary",
+    "patterns": ["Use as a threat checklist for AI application design and testing."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://atlas.mitre.org/",
+    "title": "MITRE ATLAS",
+    "type": "doc",
+    "tags": ["ai", "governance", "evaluation", "agents", "research"],
+    "domains": ["governance", "evaluation"],
+    "sourceTier": "primary",
+    "patterns": ["Use to identify adversarial AI tactics and candidate red-team scenarios."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://www.cisa.gov/securebydesign",
+    "title": "Secure by Design",
+    "type": "doc",
+    "tags": ["software", "governance", "product", "release", "design"],
+    "domains": ["governance", "release readiness"],
+    "sourceTier": "primary",
+    "patterns": ["Use to place security responsibilities in product design and default behavior."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://oecd.ai/en/ai-principles",
+    "title": "OECD AI Principles",
+    "type": "doc",
+    "tags": ["ai", "governance", "product", "evaluation", "design"],
+    "domains": ["governance", "product building"],
+    "sourceTier": "primary",
+    "patterns": ["Use to review high-level accountability, transparency, robustness, and human values."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://research.google/pubs/model-cards-for-model-reporting/",
+    "title": "Model Cards for Model Reporting",
+    "type": "doc",
+    "tags": ["ai", "documentation", "governance", "evaluation", "release"],
+    "domains": ["governance", "documentation"],
+    "sourceTier": "reference",
+    "patterns": ["Use to design handoff documentation for model purpose, limits, and evaluation results."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://cft.vanderbilt.edu/guides-sub-pages/understanding-by-design/",
+    "title": "Understanding by Design",
+    "type": "doc",
+    "tags": ["learning", "design", "planning", "evaluation", "product"],
+    "domains": ["learning design", "product building"],
+    "sourceTier": "reference",
+    "patterns": ["Use backward design to align learning outcomes, evidence, and activities."],
+    "estMinutes": 20
+  },
+  {
+    "url": "https://cft.vanderbilt.edu/guides-sub-pages/blooms-taxonomy/",
+    "title": "Bloom's Taxonomy",
+    "type": "doc",
+    "tags": ["learning", "design", "evaluation", "planning", "research"],
+    "domains": ["learning design", "evaluation"],
+    "sourceTier": "reference",
+    "patterns": ["Use to vary learning objectives from recall through creation."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://udlguidelines.cast.org/",
+    "title": "Universal Design for Learning Guidelines",
+    "type": "doc",
+    "tags": ["learning", "design", "product", "evaluation", "documentation"],
+    "domains": ["learning design", "documentation"],
+    "sourceTier": "primary",
+    "patterns": ["Use to make learning paths flexible in engagement, representation, and action."],
+    "estMinutes": 25
+  },
+  {
+    "url": "https://www.prisma-statement.org/prisma-2020",
+    "title": "PRISMA 2020",
+    "type": "doc",
+    "tags": ["research", "documentation", "evaluation", "workflow", "governance"],
+    "domains": ["learning design", "research"],
+    "sourceTier": "primary",
+    "patterns": ["Use its checklist concepts to make corpus searches and selection decisions auditable."],
+    "estMinutes": 30
+  },
+  {
+    "url": "https://guides.lib.berkeley.edu/evaluating-resources",
+    "title": "Evaluating Resources",
+    "type": "doc",
+    "tags": ["research", "learning", "evaluation", "context", "documentation"],
+    "domains": ["learning design", "research"],
+    "sourceTier": "reference",
+    "patterns": ["Use as a source-quality checklist during research curation."],
+    "estMinutes": 15
+  },
+  {
+    "url": "https://www.zotero.org/support/quick_start_guide",
+    "title": "Zotero Quick Start Guide",
+    "type": "doc",
+    "tags": ["research", "documentation", "workflow", "learning", "context"],
+    "domains": ["learning design", "research"],
+    "sourceTier": "primary",
+    "patterns": ["Use to establish a reproducible collection, annotation, and citation workflow."],
+    "estMinutes": 15
+  }
+]
