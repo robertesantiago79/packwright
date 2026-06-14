@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 4b - Scoring Foundation Implementation
-- Status: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER REVIEW
+- Current slice: Slice 4d - Scoring Promotion Record
+- Status: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -31,10 +31,12 @@
 - Slice 3 Overall: CLOSED / PROMOTED / REPO-RECORDED
 - Slice 4 Preflight: COMPLETE / READ-ONLY / NO FILES CHANGED / CONTROLLER ACCEPTED (baseline `193e266a2c711de40b5742e4f06fedc2fa2ca760`)
 - Slice 4a - Scoring Design Record: CONTROLLER ACCEPTED (commit `1a27db95ef1d4a0792e3988ad30e8ec54b6cbaa1`)
-- Slice 4b - Scoring Foundation Implementation: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER REVIEW
-- Scoring behavior promotion: HOLD pending Controller review and product-quality Owner validation
+- Slice 4b - Scoring Foundation Implementation: PROMOTED (controller accepted; owner product-quality accepted; commit `1946f409754566e2f1fdb2f2534fc50d79c4268a`)
+- Slice 4c - Ranked Sample Output Validation: READ-ONLY VALIDATION COMPLETE / GATED / CONTROLLER ACCEPTED (no tracked files changed; no commit or push; ranked evidence produced)
+- Owner Product-Quality Validation: ACCEPTED directionally as the v1 scoring foundation; no correction slice required before promotion
+- Slice 4 Scoring: CLOSED / PROMOTED / REPO-RECORDED
 - Slice 4+ Later Slices: HOLD
-- Next eligible work: HOLD pending Controller review; no later slice is authorized.
+- Next eligible work: the next SPEC slice preflight/planning under a separate Owner/Controller packet; not authorized by this closeout.
 
 ## Amendments
 
@@ -56,6 +58,8 @@
 - Slice 3a matching is exact lowercase token overlap without stemming, synonyms, or semantic expansion.
 - Production corpus URLs were not live-tested during Slice 3 acceptance.
 - Direct PDF extraction remains a known risk for corpus entries that link to PDF resources.
+- Scoring is lexical only, with no stemming, embeddings, semantic expansion, or LLM scoring.
+- Source tier influences ranking, and exact product-quality tuning may require future refinement.
 
 ## Standing Gate
 
@@ -112,8 +116,17 @@
 - Composite scoring uses the accepted `0.45`, `0.35`, and `0.20` weights; threshold filtering uses `0.35`; both remain marked `// TUNABLE`.
 - Deterministic ranking applies the accepted score-dimension, original-order, URL, and ID tie-break sequence.
 - No provider, corpus, sequencing, resource-mix, time-budget, source-preference, rationale, pack-generation, CLI, UI, dependency, stemming, embedding, semantic-expansion, or LLM behavior changed.
-- Scoring behavior is not promoted. Product-quality Owner validation remains required after ranked sample outputs exist.
-- Later Slice 4+ work remains HOLD pending Controller review.
+- Scoring behavior is promoted after Controller acceptance and Owner product-quality acceptance.
+- Later Slice 4+ work remains HOLD pending a separate authorization.
+
+## Slice 4c Product-Quality Validation
+
+- Read-only ranked sample-output validation completed with no tracked file changes, commit, or push.
+- Build, test, lint, and audit gates passed; repeated rankings were deterministic.
+- Owner accepted the scoring directionally as the v1 scoring foundation; no correction slice is required before promotion.
+- Accepted v1 tuning risk: a useful example-tier discovery item scored `0.3300` and was filtered below the `0.35` threshold.
+- Accepted v1 tuning risk: a primary topic-only item with zero stage relevance scored `0.3750` and passed.
+- These threshold behaviors are future refinement risks, not current blockers.
 
 ## Verification
 
@@ -174,3 +187,7 @@
 - Slice 4b `npm test`: PASS (46 tests)
 - Slice 4b `npm run lint`: PASS
 - Slice 4b `npm audit`: PASS (0 vulnerabilities)
+- Slice 4d `npm run build`: PASS
+- Slice 4d `npm test`: PASS (46 tests)
+- Slice 4d `npm run lint`: PASS
+- Slice 4d `npm audit`: PASS (0 vulnerabilities)
