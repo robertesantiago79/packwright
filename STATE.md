@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 5b - Sequencer Foundation Implementation
-- Status: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER REVIEW
+- Current slice: Slice 5b.1 - Sequencer Foundation Controller Acceptance Record
+- Status: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -41,9 +41,10 @@
 - Slice 5a.1 - Terminology Clarification: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Slice 4e - Ranked Candidate Exposure Correction: CLOSED / PROMOTED / REPO-RECORDED (controller accepted; commit `2dbd8aa2de527120134a1a202ef2c3050966eae5`)
 - Slice 4e.1 - Ranked Exposure Confirmation Record: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
-- Slice 5b - Sequencer Foundation Implementation: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER REVIEW
+- Slice 5b - Sequencer Foundation Implementation: IMPLEMENTED / CONTROLLER ACCEPTED / NOT FULL SLICE 5 PROMOTED (commit `e59adb956bd52428383a1b777814254fe9f77d80`)
+- Slice 5b.1 - Sequencer Foundation Controller Acceptance Record: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Slice 5 Promotion and Later Work: HOLD
-- Next eligible work: Controller review of Slice 5b; no later Slice 5 work is authorized by this implementation.
+- Next eligible work: none authorized by this confirmation record; full Slice 5 promotion and later work remain HOLD.
 
 ## Amendments
 
@@ -180,7 +181,8 @@
 - Production-corpus smoke coverage confirms the exposed ranked pool remains nonempty when the eligible set is empty and produces a nonzero low-confidence fallback stack.
 - No scoring math, threshold, corpus, provider, intake, taxonomy, schema, pack-generation, rationale, CLI, UI, dependency, semantic-matching, embedding, or LLM behavior changed.
 - Product-quality Owner validation remains required after sample sequences are reviewed.
-- Slice 5 is not promoted; pack generation, rationales, CLI integration, UI, release work, and later slices remain HOLD pending Controller review.
+- Slice 5b is controller accepted at commit `e59adb956bd52428383a1b777814254fe9f77d80`.
+- Full Slice 5 is not promoted; pack generation, rationales, CLI integration, UI, release work, and later slices remain HOLD.
 
 ## Verification
 
