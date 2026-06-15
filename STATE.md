@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 4e.1 - Ranked Exposure Confirmation Record
-- Status: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 5b - Sequencer Foundation Implementation
+- Status: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER REVIEW
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -41,8 +41,9 @@
 - Slice 5a.1 - Terminology Clarification: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Slice 4e - Ranked Candidate Exposure Correction: CLOSED / PROMOTED / REPO-RECORDED (controller accepted; commit `2dbd8aa2de527120134a1a202ef2c3050966eae5`)
 - Slice 4e.1 - Ranked Exposure Confirmation Record: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
-- Slice 5+ Implementation: HOLD
-- Next eligible work: Slice 5b Sequencer Foundation Implementation preflight or packet may be prepared under separate Controller authorization; not authorized by this record.
+- Slice 5b - Sequencer Foundation Implementation: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER REVIEW
+- Slice 5 Promotion and Later Work: HOLD
+- Next eligible work: Controller review of Slice 5b; no later Slice 5 work is authorized by this implementation.
 
 ## Amendments
 
@@ -164,6 +165,23 @@
 - Slice 4e is controller accepted, promoted, and repo-recorded at commit `2dbd8aa2de527120134a1a202ef2c3050966eae5`.
 - Slice 5 implementation remains HOLD pending separate Controller authorization.
 
+## Slice 5b Sequencer Foundation
+
+- Files changed: `src/core/sequencer/sequencer.ts`, `src/core/sequencer/index.ts`, `test/sequencer.test.ts`, and `STATE.md`; the sequencer placeholder `.gitkeep` was removed.
+- Added `sequenceCandidates`, which consumes exposed ranked scored candidates without recomputing or changing scoring.
+- Eligible candidates are selected first. When the eligible pool cannot meet the item floor, below-threshold ranked candidates remain explicitly identified and are used only as low-confidence fallback material.
+- Selection targets 8-20 resources for normal budgets and a five-item floor for 15-minute budgets. Sparse pools return the available smaller stack with low confidence rather than returning zero.
+- Candidate `estMinutes` values drive budget selection; missing estimates use the recorded deterministic 15-minute fallback.
+- Budget compliance targets the intake budget +/-20%. Infeasible item floors or durations produce budget-pressure metadata and reduced confidence.
+- Stage resource mix and intake source preference are deterministic soft influences and do not override eligibility, score priority, availability, or the item floor.
+- Every selected candidate receives exactly one canonical path role in deterministic canonical order based on the stage path emphasis.
+- Sequencer results expose selected items, total estimated minutes, budget status, fallback status, confidence, confidence notes, and path assignments.
+- Inputs and scored candidate objects are not mutated; selected candidate data is cloned into the result.
+- Production-corpus smoke coverage confirms the exposed ranked pool remains nonempty when the eligible set is empty and produces a nonzero low-confidence fallback stack.
+- No scoring math, threshold, corpus, provider, intake, taxonomy, schema, pack-generation, rationale, CLI, UI, dependency, semantic-matching, embedding, or LLM behavior changed.
+- Product-quality Owner validation remains required after sample sequences are reviewed.
+- Slice 5 is not promoted; pack generation, rationales, CLI integration, UI, release work, and later slices remain HOLD pending Controller review.
+
 ## Verification
 
 - `npm run build`: PASS
@@ -243,3 +261,7 @@
 - Slice 4e.1 `npm test`: PASS (48 tests)
 - Slice 4e.1 `npm run lint`: PASS
 - Slice 4e.1 `npm audit`: PASS (0 vulnerabilities)
+- Slice 5b `npm run build`: PASS
+- Slice 5b `npm test`: PASS (58 tests)
+- Slice 5b `npm run lint`: PASS
+- Slice 5b `npm audit`: PASS (0 vulnerabilities)
