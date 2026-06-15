@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 4e - Ranked Candidate Exposure Correction
-- Status: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 4e.1 - Ranked Exposure Confirmation Record
+- Status: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -39,8 +39,10 @@
 - Next SPEC Capability: Slice 5 Sequencer; implementation is not authorized
 - Slice 5a - Sequencer Design Record: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Slice 5a.1 - Terminology Clarification: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
-- Slice 4e - Ranked Candidate Exposure Correction: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Slice 4e - Ranked Candidate Exposure Correction: CLOSED / PROMOTED / REPO-RECORDED (controller accepted; commit `2dbd8aa2de527120134a1a202ef2c3050966eae5`)
+- Slice 4e.1 - Ranked Exposure Confirmation Record: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Slice 5+ Implementation: HOLD
+- Next eligible work: Slice 5b Sequencer Foundation Implementation preflight or packet may be prepared under separate Controller authorization; not authorized by this record.
 
 ## Amendments
 
@@ -159,7 +161,8 @@
 - Production-corpus scored candidates are now visible through the scoring API even when the eligible partition is empty.
 - Below-threshold candidates remain ineligible; any future sequencer use must be an explicit low-confidence fallback.
 - Product-quality Owner validation remains required after sample sequence outputs exist.
-- Slice 5 implementation remains HOLD pending Controller confirmation.
+- Slice 4e is controller accepted, promoted, and repo-recorded at commit `2dbd8aa2de527120134a1a202ef2c3050966eae5`.
+- Slice 5 implementation remains HOLD pending separate Controller authorization.
 
 ## Verification
 
@@ -236,3 +239,7 @@
 - Slice 4e `npm test`: PASS (48 tests)
 - Slice 4e `npm run lint`: PASS
 - Slice 4e `npm audit`: PASS (0 vulnerabilities)
+- Slice 4e.1 `npm run build`: PASS
+- Slice 4e.1 `npm test`: PASS (48 tests)
+- Slice 4e.1 `npm run lint`: PASS
+- Slice 4e.1 `npm audit`: PASS (0 vulnerabilities)
