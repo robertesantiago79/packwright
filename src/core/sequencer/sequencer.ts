@@ -17,6 +17,8 @@ const MAX_SELECTED_ITEMS = 20;
 const BUDGET_TOLERANCE = 0.2;
 const SOFT_PREFERENCE_WEIGHT = 0.01;
 const SOFT_MIX_WEIGHT = 0.01;
+const FALLBACK_SCORE_WINDOW = 0.07;
+const FALLBACK_DIVERSITY_SCORE_WINDOW = 0.05;
 const PATH_ROLES = [
   "orientation",
   "deepening",
@@ -125,6 +127,81 @@ function pickNextCandidate(
 
   return [...candidates].sort((left, right) => {
     return (
+      selectionPriority(right, selected, intake, stageProfile) -
+        selectionPriority(left, selected, intake, stageProfile) ||
+      right.candidate.scores.composite -
+        left.candidate.scores.composite ||
+      left.originalOrder - right.originalOrder ||
+      left.candidate.url.localeCompare(right.candidate.url) ||
+      left.candidate.id.localeCompare(right.candidate.id)
+    );
+  })[0];
+}
+
+function fallbackTypeNeed(
+  item: RankedSelectionCandidate,
+  selected: readonly RankedSelectionCandidate[],
+  intake: Intake,
+  stageProfile: StageProfile,
+  targetCount: number,
+  diversityScoreFloor: number,
+): number {
+  const selectedTypeCounts = countSelectedTypes(selected);
+  const diversityEligible =
+    item.candidate.type === "doc" ||
+    item.candidate.scores.composite >= diversityScoreFloor;
+  const preferenceAdjustment =
+    (getSourcePreference(intake, item.candidate.type) - 1) * 0.25;
+
+  if (!diversityEligible) {
+    return -targetCount;
+  }
+
+  return (
+    stageProfile.resourceMix[item.candidate.type] * targetCount +
+    preferenceAdjustment -
+    selectedTypeCounts[item.candidate.type]
+  );
+}
+
+function pickFallbackCandidate(
+  remaining: readonly RankedSelectionCandidate[],
+  selected: readonly RankedSelectionCandidate[],
+  intake: Intake,
+  stageProfile: StageProfile,
+  targetCount: number,
+  scoreFloor: number,
+  diversityScoreFloor: number,
+): RankedSelectionCandidate | undefined {
+  const fallbackCandidates = remaining.filter(({ eligible }) => !eligible);
+  const slotsRemaining = targetCount - selected.length;
+  const withinScoreWindow = fallbackCandidates.filter(
+    ({ candidate }) => candidate.scores.composite >= scoreFloor,
+  );
+  const candidates =
+    withinScoreWindow.length >= slotsRemaining
+      ? withinScoreWindow
+      : fallbackCandidates;
+
+  return [...candidates].sort((left, right) => {
+    return (
+      fallbackTypeNeed(
+        right,
+        selected,
+        intake,
+        stageProfile,
+        targetCount,
+        diversityScoreFloor,
+      ) -
+        fallbackTypeNeed(
+          left,
+          selected,
+          intake,
+          stageProfile,
+          targetCount,
+          diversityScoreFloor,
+        ) ||
+      left.estMinutes - right.estMinutes ||
       selectionPriority(right, selected, intake, stageProfile) -
         selectionPriority(left, selected, intake, stageProfile) ||
       right.candidate.scores.composite -
@@ -247,7 +324,7 @@ export function sequenceCandidates(
     passesScoreThreshold(scores),
   ).length;
   const allowFallback = eligibleCount < targetCount;
-  const remaining = rankedCandidates
+  const rankedSelectionCandidates = rankedCandidates
     .map(
       (candidate, originalOrder): RankedSelectionCandidate => ({
         candidate,
@@ -255,17 +332,43 @@ export function sequenceCandidates(
         estMinutes: candidate.estMinutes ?? DEFAULT_EST_MINUTES,
         originalOrder,
       }),
-    )
-    .filter(({ eligible }) => eligible || allowFallback);
+    );
+  const remaining = rankedSelectionCandidates.filter(
+    ({ eligible }) => eligible || allowFallback,
+  );
+  const bestFallbackScore = rankedSelectionCandidates.find(
+    ({ eligible }) => !eligible,
+  )?.candidate.scores.composite;
+  const fallbackScoreFloor =
+    bestFallbackScore === undefined
+      ? 0
+      : bestFallbackScore - FALLBACK_SCORE_WINDOW;
+  const fallbackDiversityScoreFloor =
+    bestFallbackScore === undefined
+      ? 0
+      : bestFallbackScore - FALLBACK_DIVERSITY_SCORE_WINDOW;
   const selected: RankedSelectionCandidate[] = [];
 
   while (selected.length < targetCount) {
-    const next = pickNextCandidate(
-      remaining,
-      selected,
-      intake,
-      stageProfile,
-    );
+    const hasEligible = remaining.some(({ eligible }) => eligible);
+    const hasSelectedFallback = selected.some(({ eligible }) => !eligible);
+    const next =
+      !hasEligible && hasSelectedFallback
+        ? pickFallbackCandidate(
+            remaining,
+            selected,
+            intake,
+            stageProfile,
+            targetCount,
+            fallbackScoreFloor,
+            fallbackDiversityScoreFloor,
+          )
+        : pickNextCandidate(
+            remaining,
+            selected,
+            intake,
+            stageProfile,
+          );
     if (next === undefined) {
       break;
     }

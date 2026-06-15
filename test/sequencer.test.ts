@@ -22,6 +22,7 @@ import {
 } from "../src/core/sequencer/index.js";
 import {
   DISCOVERY_PROFILE,
+  PRD_PROFILE,
   type StageProfile,
 } from "../src/core/taxonomy/index.js";
 
@@ -152,6 +153,84 @@ describe("sequencer foundation", () => {
     expect(
       result.selected.every(({ fallbackSelected }) => fallbackSelected),
     ).toBe(true);
+  });
+
+  it("uses shorter viable resources for a duration-aware fallback floor", () => {
+    const candidates = [
+      ...createCandidates(8, {
+        estMinutes: 25,
+        composite: 0.3,
+      }),
+      ...createCandidates(8, {
+        estMinutes: 5,
+        composite: 0.27,
+      }).map((candidate, index) => ({
+        ...candidate,
+        id: `short-${index + 1}`,
+        url: `https://example.com/short-${index + 1}`,
+      })),
+    ];
+    const before = structuredClone(candidates);
+    const result = sequenceCandidates(
+      candidates,
+      baseIntake,
+      DISCOVERY_PROFILE,
+    );
+    const repeated = sequenceCandidates(
+      candidates,
+      baseIntake,
+      DISCOVERY_PROFILE,
+    );
+
+    expect(result.totalEstMinutes).toBeLessThan(8 * 25);
+    expect(result.totalEstMinutes).toBe(60);
+    expect(result.selected.filter(({ estMinutes }) => estMinutes === 5))
+      .toHaveLength(7);
+    expect(result.confidence).toBe("low");
+    expect(result.budgetPressure).toBe(true);
+    expect(result).toEqual(repeated);
+    expect(candidates).toEqual(before);
+  });
+
+  it("adds viable non-doc resources to a fallback stack deterministically", () => {
+    const candidates = [
+      ...createCandidates(8, {
+        type: "doc",
+        estMinutes: 10,
+        composite: 0.3,
+      }),
+      createScoredCandidate("fallback-example", {
+        type: "example",
+        estMinutes: 10,
+        composite: 0.27,
+      }),
+      createScoredCandidate("fallback-visual", {
+        type: "visual",
+        estMinutes: 10,
+        composite: 0.27,
+      }),
+      createScoredCandidate("too-weak-video", {
+        type: "video",
+        estMinutes: 5,
+        composite: 0.1,
+      }),
+    ];
+    const result = sequenceCandidates(
+      candidates,
+      baseIntake,
+      DISCOVERY_PROFILE,
+    );
+    const selectedTypes = result.selected.map(
+      ({ candidate }) => candidate.type,
+    );
+
+    expect(selectedTypes).toContain("example");
+    expect(selectedTypes).toContain("visual");
+    expect(selectedTypes).not.toContain("video");
+    expect(result.confidence).toBe("low");
+    expect(
+      sequenceCandidates(candidates, baseIntake, DISCOVERY_PROFILE),
+    ).toEqual(result);
   });
 
   it("exhausts eligible candidates before selecting fallback material", () => {
@@ -372,6 +451,90 @@ describe("sequencer foundation", () => {
     expect(result.selected.length).toBeGreaterThan(0);
     expect(result.usedBelowThresholdFallback).toBe(true);
     expect(result.confidence).toBe("low");
+    expect(result.totalEstMinutes).toBeLessThan(170);
+    expect(
+      new Set(result.selected.map(({ candidate }) => candidate.type)).size,
+    ).toBeGreaterThan(1);
     expect(result).toEqual(repeated);
+  });
+
+  it("improves production PRD fallback duration without changing eligibility", async () => {
+    const representativeIntake = {
+      projectName: "Packwright Product Specification",
+      description:
+        "An AI product workflow requiring user stories, acceptance criteria, UX flow, scope, success metrics, software documentation, and release planning.",
+      stage: "prd",
+      depth: "medium",
+      timeBudgetMin: 60,
+    } satisfies Intake;
+    const providerCandidates = await aggregateCandidates(
+      [
+        new CuratedListProvider(
+          [corpusPath],
+          "product-building-curated",
+        ),
+      ],
+      representativeIntake,
+      60,
+    );
+    const eligible = rankCandidates(
+      providerCandidates,
+      representativeIntake,
+      PRD_PROFILE,
+    );
+    const ranked = rankAllCandidates(
+      providerCandidates,
+      representativeIntake,
+      PRD_PROFILE,
+    );
+    const result = sequenceCandidates(
+      ranked,
+      representativeIntake,
+      PRD_PROFILE,
+    );
+
+    expect(eligible).toEqual([]);
+    expect(result.selected).toHaveLength(8);
+    expect(result.totalEstMinutes).toBeLessThan(173);
+    expect(result.usedBelowThresholdFallback).toBe(true);
+    expect(result.confidence).toBe("low");
+    expect(result.budgetPressure).toBe(true);
+  });
+
+  it("improves the production tiny-budget fallback while preserving its floor", async () => {
+    const representativeIntake = {
+      projectName: "Packwright Tiny Discovery",
+      description:
+        "An AI product workflow for research, planning, automation, agents, context, evaluation, software, documentation, release, governance, learning, and design.",
+      stage: "discovery",
+      depth: "medium",
+      timeBudgetMin: 15,
+    } satisfies Intake;
+    const providerCandidates = await aggregateCandidates(
+      [
+        new CuratedListProvider(
+          [corpusPath],
+          "product-building-curated",
+        ),
+      ],
+      representativeIntake,
+      60,
+    );
+    const ranked = rankAllCandidates(
+      providerCandidates,
+      representativeIntake,
+      DISCOVERY_PROFILE,
+    );
+    const result = sequenceCandidates(
+      ranked,
+      representativeIntake,
+      DISCOVERY_PROFILE,
+    );
+
+    expect(result.selected).toHaveLength(5);
+    expect(result.totalEstMinutes).toBeLessThan(100);
+    expect(result.usedBelowThresholdFallback).toBe(true);
+    expect(result.confidence).toBe("low");
+    expect(result.budgetPressure).toBe(true);
   });
 });

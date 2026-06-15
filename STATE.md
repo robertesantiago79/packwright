@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 5b.1 - Sequencer Foundation Controller Acceptance Record
-- Status: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 5d - Fallback Selection Quality Correction
+- Status: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -43,8 +43,10 @@
 - Slice 4e.1 - Ranked Exposure Confirmation Record: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Slice 5b - Sequencer Foundation Implementation: IMPLEMENTED / CONTROLLER ACCEPTED / NOT FULL SLICE 5 PROMOTED (commit `e59adb956bd52428383a1b777814254fe9f77d80`)
 - Slice 5b.1 - Sequencer Foundation Controller Acceptance Record: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Slice 5c - Sequencer Sample Output Validation: COMPLETE / READ-ONLY / CONTROLLER ACCEPTED (no tracked files changed; no commit or push)
+- Slice 5d - Fallback Selection Quality Correction: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Slice 5 Promotion and Later Work: HOLD
-- Next eligible work: none authorized by this confirmation record; full Slice 5 promotion and later work remain HOLD.
+- Next eligible work: another sequencer sample-output validation under a separate Controller packet; full Slice 5 promotion and later work remain HOLD.
 
 ## Amendments
 
@@ -184,6 +186,17 @@
 - Slice 5b is controller accepted at commit `e59adb956bd52428383a1b777814254fe9f77d80`.
 - Full Slice 5 is not promoted; pack generation, rationales, CLI integration, UI, release work, and later slices remain HOLD.
 
+## Slice 5d Fallback Selection Quality Correction
+
+- Fallback floor selection preserves the strongest ranked fallback as an anchor, then uses a deterministic bounded score window to consider shorter viable resources.
+- Best-effort fallback diversity uses a tighter score window so non-doc resources are selected only when they are not materially weaker than the strongest fallback.
+- Eligible-first selection, the `0.35` threshold, below-threshold ineligibility, five-item tiny-budget floor, sparse-stack behavior, deterministic roles, and immutability remain unchanged.
+- Slice 5c production comparisons improved from `170` to `100` minutes for discovery, `173` to `95` for PRD, `100` to `68` for the tiny-budget case, and `159` to `89` for the narrow/off-topic case.
+- Discovery and tiny-budget fallback paths include one viable example. PRD and narrow paths remain all-doc because available non-doc resources fall outside the coherence-preserving diversity window.
+- All production fallback paths remain low confidence and continue reporting budget pressure; below-threshold candidates remain fallback material only.
+- No scoring, threshold, corpus, provider, taxonomy, schema, CLI, pack-generation, UI, dependency, semantic-matching, embedding, or LLM behavior changed.
+- Full Slice 5 promotion remains HOLD pending another sample-output validation and Owner product-quality review.
+
 ## Verification
 
 - `npm run build`: PASS
@@ -267,3 +280,7 @@
 - Slice 5b `npm test`: PASS (58 tests)
 - Slice 5b `npm run lint`: PASS
 - Slice 5b `npm audit`: PASS (0 vulnerabilities)
+- Slice 5d `npm run build`: PASS
+- Slice 5d `npm test`: PASS (62 tests)
+- Slice 5d `npm run lint`: PASS
+- Slice 5d `npm audit`: PASS (0 vulnerabilities)
