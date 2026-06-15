@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 5a - Sequencer Design Record
-- Status: DESIGN RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 5a.1 - Terminology Clarification
+- Status: CLARIFICATION RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -38,6 +38,7 @@
 - Next SPEC Slice Preflight: COMPLETE / READ-ONLY / NO FILES CHANGED / NO COMMIT OR PUSH / CONTROLLER ACCEPTED (baseline remained `c2ab4989e33b98a4e5bfaad7fccf174fc576e142`)
 - Next SPEC Capability: Slice 5 Sequencer; implementation is not authorized
 - Slice 5a - Sequencer Design Record: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
+- Slice 5a.1 - Terminology Clarification: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Slice 5+ Implementation: HOLD
 
 ## Amendments
@@ -141,7 +142,8 @@
 - Sparse stacks may contain fewer than eight resources. Under the current schema, fewer-than-eight stacks use low confidence unless a later authorized schema change permits medium confidence.
 - Assign exactly one existing canonical path role per selected resource. Short stacks use the earliest and highest-priority roles first; longer stacks distribute roles deterministically across selected order.
 - `sourcePreference` influences selection as a soft preference and does not completely override score, budget, or availability. No new preference model or dependency is authorized.
-- The promoted scoring threshold creates a production integration blocker for the accepted OmniAgent-style corpus intake: discovery maximum composite observed was `0.3250`, PRD maximum was `0.3167`, and the threshold is `0.35`, producing zero passing production candidates.
+- The promoted scoring threshold creates a production integration blocker for a representative Packwright sample intake modeled on an agent/product-building use case: discovery maximum composite observed was `0.3250`, PRD maximum was `0.3167`, and the threshold is `0.35`, producing zero passing production candidates.
+- This is Packwright scoring/corpus integration evidence only; it is not OmniAgent project status or OmniAgent repo truth.
 - Sequencer unit tests may use purpose-built scored fixtures, but production-corpus integration remains blocked until a separate design ruling or correction slice addresses candidate-pool availability.
 - A future correction slice may expose below-threshold scored candidates, tune scoring or corpus matching, or adjust threshold behavior. No scoring, provider, or corpus correction is authorized by Slice 5a.
 - Pack generation, rationales or explanations, CLI integration, UI, provider changes, corpus changes, scoring tuning, dependency additions, semantic matching, embeddings, and LLM scoring remain out of scope.
@@ -214,3 +216,7 @@
 - Slice 5a `npm test`: PASS (46 tests)
 - Slice 5a `npm run lint`: PASS
 - Slice 5a `npm audit`: PASS (0 vulnerabilities)
+- Slice 5a.1 `npm run build`: PASS
+- Slice 5a.1 `npm test`: PASS (46 tests)
+- Slice 5a.1 `npm run lint`: PASS
+- Slice 5a.1 `npm audit`: PASS (0 vulnerabilities)
