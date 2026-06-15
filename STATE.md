@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 4d - Scoring Promotion Record
-- Status: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 5a - Sequencer Design Record
+- Status: DESIGN RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -35,8 +35,10 @@
 - Slice 4c - Ranked Sample Output Validation: READ-ONLY VALIDATION COMPLETE / GATED / CONTROLLER ACCEPTED (no tracked files changed; no commit or push; ranked evidence produced)
 - Owner Product-Quality Validation: ACCEPTED directionally as the v1 scoring foundation; no correction slice required before promotion
 - Slice 4 Scoring: CLOSED / PROMOTED / REPO-RECORDED
-- Slice 4+ Later Slices: HOLD
-- Next eligible work: the next SPEC slice preflight/planning under a separate Owner/Controller packet; not authorized by this closeout.
+- Next SPEC Slice Preflight: COMPLETE / READ-ONLY / NO FILES CHANGED / NO COMMIT OR PUSH / CONTROLLER ACCEPTED (baseline remained `c2ab4989e33b98a4e5bfaad7fccf174fc576e142`)
+- Next SPEC Capability: Slice 5 Sequencer; implementation is not authorized
+- Slice 5a - Sequencer Design Record: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
+- Slice 5+ Implementation: HOLD
 
 ## Amendments
 
@@ -128,6 +130,23 @@
 - Accepted v1 tuning risk: a primary topic-only item with zero stage relevance scored `0.3750` and passed.
 - These threshold behaviors are future refinement risks, not current blockers.
 
+## Slice 5a Sequencer Design Decisions
+
+- Slice 5 requirements are to select 8-20 ranked candidates, honor stage `resourceMix`, target total `estMinutes` within +/-20% of the intake budget, apply `sourcePreference`, assign canonical path roles, support a five-item floor for 15-minute budgets, and support sparse domains with a smaller stack and appropriate confidence.
+- The promoted corpus contains 68 docs, 3 examples, 1 visual, and 0 videos. Stage resource-mix values are therefore best-effort soft targets, not hard constraints.
+- If a target resource type is unavailable or sparse, selection falls back to the next-best available scored candidates without failing solely on mix proportions; ordering remains deterministic.
+- Candidates missing `estMinutes` remain eligible and use a deterministic 15-minute fallback estimate. Future corpus work may reduce fallback reliance.
+- The budget +/-20% range is the target when feasible. If the item floor, sparse domain, or minimum durations make it infeasible, the sequencer returns the best feasible stack and reports reduced confidence rather than silently returning zero results.
+- For 15-minute budgets, prefer a five-item floor when enough candidates exist. If five items exceed the budget, prioritize the floor and report low confidence or budget pressure.
+- Sparse stacks may contain fewer than eight resources. Under the current schema, fewer-than-eight stacks use low confidence unless a later authorized schema change permits medium confidence.
+- Assign exactly one existing canonical path role per selected resource. Short stacks use the earliest and highest-priority roles first; longer stacks distribute roles deterministically across selected order.
+- `sourcePreference` influences selection as a soft preference and does not completely override score, budget, or availability. No new preference model or dependency is authorized.
+- The promoted scoring threshold creates a production integration blocker for the accepted OmniAgent-style corpus intake: discovery maximum composite observed was `0.3250`, PRD maximum was `0.3167`, and the threshold is `0.35`, producing zero passing production candidates.
+- Sequencer unit tests may use purpose-built scored fixtures, but production-corpus integration remains blocked until a separate design ruling or correction slice addresses candidate-pool availability.
+- A future correction slice may expose below-threshold scored candidates, tune scoring or corpus matching, or adjust threshold behavior. No scoring, provider, or corpus correction is authorized by Slice 5a.
+- Pack generation, rationales or explanations, CLI integration, UI, provider changes, corpus changes, scoring tuning, dependency additions, semantic matching, embeddings, and LLM scoring remain out of scope.
+- Recommended follow-up requires separate Controller authorization: either Slice 5b Sequencer Foundation Implementation with fixture-backed acceptance while preserving the production blocker, or Slice 4e/5b Scoring-Corpus Integration Correction if production-backed sequencing must work first.
+
 ## Verification
 
 - `npm run build`: PASS
@@ -191,3 +210,7 @@
 - Slice 4d `npm test`: PASS (46 tests)
 - Slice 4d `npm run lint`: PASS
 - Slice 4d `npm audit`: PASS (0 vulnerabilities)
+- Slice 5a `npm run build`: PASS
+- Slice 5a `npm test`: PASS (46 tests)
+- Slice 5a `npm run lint`: PASS
+- Slice 5a `npm audit`: PASS (0 vulnerabilities)
