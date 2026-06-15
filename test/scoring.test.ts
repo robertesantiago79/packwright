@@ -1,6 +1,12 @@
+import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
-import type { CandidateResource } from "../src/core/providers/index.js";
+import {
+  CuratedListProvider,
+  aggregateCandidates,
+  type CandidateResource,
+} from "../src/core/providers/index.js";
 import type { Intake } from "../src/core/schema/types.js";
 import {
   SCORE_THRESHOLD,
@@ -9,7 +15,9 @@ import {
   calculateStageRelevance,
   calculateTopicalMatch,
   clampScore,
+  partitionRankedCandidates,
   passesScoreThreshold,
+  rankAllCandidates,
   rankCandidates,
   scoreCandidate,
 } from "../src/core/scoring/index.js";
@@ -24,6 +32,9 @@ const intake = {
     "An AI product workflow for research planning and automation agents.",
   stage: "discovery",
 } satisfies Intake;
+const corpusPath = fileURLToPath(
+  new URL("../sources/product-building.yaml", import.meta.url),
+);
 
 function createCandidate(
   id: string,
@@ -197,6 +208,72 @@ describe("scoring foundation", () => {
       "original-first",
       "original-second",
     ]);
+  });
+
+  it("exposes all ranked candidates and partitions without mutation", () => {
+    const candidates = [
+      createCandidate("eligible", {
+        title: "Alpha beta",
+      }),
+      createCandidate("ineligible", {
+        title: "Unrelated",
+        tags: [],
+        domains: [],
+        sourceTier: "example",
+      }),
+    ];
+    const profile = createProfile(["alpha", "beta"]);
+    const before = structuredClone(candidates);
+    const ranked = rankAllCandidates(candidates, intake, profile);
+    const rankedBeforePartition = structuredClone(ranked);
+    const partition = partitionRankedCandidates(ranked);
+
+    expect(candidates).toEqual(before);
+    expect(ranked).toEqual(rankedBeforePartition);
+    expect(partition.eligible.map(({ id }) => id)).toEqual(["eligible"]);
+    expect(partition.ineligible.map(({ id }) => id)).toEqual(["ineligible"]);
+    expect(rankCandidates(candidates, intake, profile)).toEqual(
+      partition.eligible,
+    );
+  });
+
+  it("exposes deterministic production corpus rankings when none are eligible", async () => {
+    const representativeIntake = {
+      projectName: "Packwright Sample",
+      description:
+        "An AI product workflow for research, planning, automation, agents, context, evaluation, software, documentation, release, governance, learning, and design.",
+      stage: "discovery",
+      depth: "medium",
+      timeBudgetMin: 30,
+    } satisfies Intake;
+    const providerCandidates = await aggregateCandidates(
+      [new CuratedListProvider([corpusPath], "product-building-curated")],
+      representativeIntake,
+      60,
+    );
+    const filtered = rankCandidates(
+      providerCandidates,
+      representativeIntake,
+      DISCOVERY_PROFILE,
+    );
+    const ranked = rankAllCandidates(
+      providerCandidates,
+      representativeIntake,
+      DISCOVERY_PROFILE,
+    );
+    const repeated = rankAllCandidates(
+      providerCandidates,
+      representativeIntake,
+      DISCOVERY_PROFILE,
+    );
+    const partition = partitionRankedCandidates(ranked);
+
+    expect(filtered).toEqual([]);
+    expect(ranked.length).toBeGreaterThan(0);
+    expect(repeated).toEqual(ranked);
+    expect(partition.eligible).toEqual(filtered);
+    expect(partition.ineligible).toEqual(ranked);
+    expect(ranked[0]?.scores.composite).toBeLessThan(SCORE_THRESHOLD);
   });
 
   it("does not mutate representative Slice 3 candidates", () => {

@@ -13,6 +13,11 @@ export interface ScoredCandidate extends CandidateResource {
   scores: CandidateScores;
 }
 
+export interface RankedCandidatePartition {
+  eligible: ScoredCandidate[];
+  ineligible: ScoredCandidate[];
+}
+
 interface RankedCandidate {
   candidate: ScoredCandidate;
   originalOrder: number;
@@ -177,12 +182,37 @@ export function rankCandidates(
   intake: Intake,
   stageProfile: StageProfile,
 ): ScoredCandidate[] {
+  return rankAllCandidates(candidates, intake, stageProfile).filter(
+    ({ scores }) => passesScoreThreshold(scores),
+  );
+}
+
+export function rankAllCandidates(
+  candidates: readonly CandidateResource[],
+  intake: Intake,
+  stageProfile: StageProfile,
+): ScoredCandidate[] {
   return candidates
     .map((candidate, originalOrder): RankedCandidate => ({
       candidate: scoreCandidate(candidate, intake, stageProfile),
       originalOrder,
     }))
-    .filter(({ candidate }) => passesScoreThreshold(candidate.scores))
     .sort(compareRankedCandidates)
     .map(({ candidate }) => candidate);
+}
+
+export function partitionRankedCandidates(
+  candidates: readonly ScoredCandidate[],
+): RankedCandidatePartition {
+  const eligible: ScoredCandidate[] = [];
+  const ineligible: ScoredCandidate[] = [];
+
+  for (const candidate of candidates) {
+    const target = passesScoreThreshold(candidate.scores)
+      ? eligible
+      : ineligible;
+    target.push(candidate);
+  }
+
+  return { eligible, ineligible };
 }

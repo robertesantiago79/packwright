@@ -5,9 +5,12 @@ export {
   calculateStageRelevance,
   calculateTopicalMatch,
   clampScore,
+  partitionRankedCandidates,
   passesScoreThreshold,
+  rankAllCandidates,
   rankCandidates,
   scoreCandidate,
   type CandidateScores,
+  type RankedCandidatePartition,
   type ScoredCandidate,
 } from "./scoring.js";

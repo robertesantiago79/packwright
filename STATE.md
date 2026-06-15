@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 5a.1 - Terminology Clarification
-- Status: CLARIFICATION RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 4e - Ranked Candidate Exposure Correction
+- Status: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -39,6 +39,7 @@
 - Next SPEC Capability: Slice 5 Sequencer; implementation is not authorized
 - Slice 5a - Sequencer Design Record: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
 - Slice 5a.1 - Terminology Clarification: RECORDED / GATED / PENDING CONTROLLER CONFIRMATION
+- Slice 4e - Ranked Candidate Exposure Correction: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Slice 5+ Implementation: HOLD
 
 ## Amendments
@@ -144,10 +145,21 @@
 - `sourcePreference` influences selection as a soft preference and does not completely override score, budget, or availability. No new preference model or dependency is authorized.
 - The promoted scoring threshold creates a production integration blocker for a representative Packwright sample intake modeled on an agent/product-building use case: discovery maximum composite observed was `0.3250`, PRD maximum was `0.3167`, and the threshold is `0.35`, producing zero passing production candidates.
 - This is Packwright scoring/corpus integration evidence only; it is not OmniAgent project status or OmniAgent repo truth.
-- Sequencer unit tests may use purpose-built scored fixtures, but production-corpus integration remains blocked until a separate design ruling or correction slice addresses candidate-pool availability.
+- Sequencer unit tests may use purpose-built scored fixtures. Slice 4e addresses production candidate-pool visibility, while below-threshold eligibility remains subject to the recorded low-confidence sequencer fallback.
 - A future correction slice may expose below-threshold scored candidates, tune scoring or corpus matching, or adjust threshold behavior. No scoring, provider, or corpus correction is authorized by Slice 5a.
 - Pack generation, rationales or explanations, CLI integration, UI, provider changes, corpus changes, scoring tuning, dependency additions, semantic matching, embeddings, and LLM scoring remain out of scope.
-- Recommended follow-up requires separate Controller authorization: either Slice 5b Sequencer Foundation Implementation with fixture-backed acceptance while preserving the production blocker, or Slice 4e/5b Scoring-Corpus Integration Correction if production-backed sequencing must work first.
+- Recommended follow-up requires separate Controller authorization: Slice 5b Sequencer Foundation Implementation using the exposed ranked pool and the recorded low-confidence fallback.
+
+## Slice 4e Ranked Candidate Exposure
+
+- Added `rankAllCandidates` to expose every scored candidate using the existing deterministic ranking rules.
+- Added `partitionRankedCandidates` to separate threshold-eligible and ineligible scored candidates without mutation.
+- Existing `rankCandidates` remains the filtered public behavior and returns only candidates with composite scores at or above `0.35`.
+- No scoring weights, threshold, stage relevance, topical match, source-tier mapping, taxonomy, provider, or corpus behavior changed.
+- Production-corpus scored candidates are now visible through the scoring API even when the eligible partition is empty.
+- Below-threshold candidates remain ineligible; any future sequencer use must be an explicit low-confidence fallback.
+- Product-quality Owner validation remains required after sample sequence outputs exist.
+- Slice 5 implementation remains HOLD pending Controller confirmation.
 
 ## Verification
 
@@ -220,3 +232,7 @@
 - Slice 5a.1 `npm test`: PASS (46 tests)
 - Slice 5a.1 `npm run lint`: PASS
 - Slice 5a.1 `npm audit`: PASS (0 vulnerabilities)
+- Slice 4e `npm run build`: PASS
+- Slice 4e `npm test`: PASS (48 tests)
+- Slice 4e `npm run lint`: PASS
+- Slice 4e `npm audit`: PASS (0 vulnerabilities)
