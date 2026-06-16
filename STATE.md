@@ -1,6 +1,6 @@
 # Build State
 
-- Current slice: Slice 6b.1 - Core Pack Assembler Controller Acceptance Record
+- Current slice: Slice 6d - Owner Product-Quality Acceptance Record
 - Status: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
@@ -54,8 +54,12 @@
 - Slice 6a - Pack Generation Design Record / Contract Rulings: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Slice 6b - Core Pack Assembler Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / CONTROLLER ACCEPTED (commit `c4ada13ad869c76983f21bcf0f2e2ae845bfffe8`)
 - Slice 6b.1 - Core Pack Assembler Controller Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Slice 6c - Generated ContextPack Sample Output Validation: COMPLETE / READ-ONLY / CONTROLLER ACCEPTED (no tracked files changed; no commit or push; baseline remained `04cef3bd6f046135d8ee644bfe2252898544d731`)
+- Slice 6 Owner Product-Quality Validation: ACCEPTED DIRECTIONALLY FOR v1 with caveats; Owner selected the A path after Slice 6c review.
+- Core Generated ContextPack Output Quality: ACCEPTED FOR v1 WITH CAVEATS / REPO-RECORDED BY SLICE 6d
+- Slice 6d - Owner Product-Quality Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Pack generation promotion, CLI integration, output writing, UI, release work, Slice 7+, and later work: HOLD
-- Next eligible work: Slice 6c Read-only Generated ContextPack Sample Output Validation may be prepared next; Owner product-quality validation remains pending until sample ContextPacks are reviewed. CLI integration and output writing require later separate Controller packets.
+- Next eligible work: read-only preflight for the next SPEC slice or next integration slice may be prepared next. Likely candidate: CLI / compile integration / output writing preflight, if SPEC confirms. No implementation is authorized by this record, and CLI integration and output writing require later separate Controller packets.
 
 ## Amendments
 
@@ -267,6 +271,24 @@
 - Slice 6b is controller accepted at commit `c4ada13ad869c76983f21bcf0f2e2ae845bfffe8`.
 - Generated ContextPack usefulness still requires read-only sample-output validation and Owner product-quality review before any Slice 6 promotion.
 - CLI integration, output writing, schema widening, pack-generation promotion, UI, release work, and Slice 7+ remain HOLD.
+
+## Slice 6c/6d Generated ContextPack Quality Acceptance
+
+- Slice 6c generated ContextPack sample-output validation completed read-only with no tracked file changes, no commit, and no push. The baseline remained `04cef3bd6f046135d8ee644bfe2252898544d731`.
+- Slice 6c validation generated six sample ContextPacks covering high-confidence fixture, low-confidence fallback fixture, production discovery, production PRD, tiny-budget discovery, and narrow/weakly aligned discovery scenarios.
+- Accepted strengths: all six sample packs validated successfully with existing `validatePack`; Markdown rendering worked; deterministic `packId` was confirmed; fixed `createdAt` override was confirmed; fallback caveats were preserved; actual over-budget sequencer time was preserved in text; confidence was not upgraded; no schema changes occurred; no unread-page content claims were made; pattern aggregation was deterministic and deduped.
+- Owner product-quality validation accepted generated ContextPack output directionally for v1 after Slice 6c review and selected the A path.
+- Core generated ContextPack output quality is ACCEPTED FOR v1 WITH CAVEATS and repo-recorded by Slice 6d.
+- Acceptance covers core generated ContextPack output quality only. It does not include CLI integration, output/file writing, schema widening, UI, release readiness, or later slices.
+- Caveat: rationales are useful but template-heavy.
+- Caveat: PRD sample output remains generic and not strongly PRD-specific.
+- Caveat: pack-level budget-capped estimates may confuse users unless caveats are visible.
+- Caveat: fallback and source metadata are not machine-readable yet.
+- Caveat: generated pack quality may need polish after external or user-facing review.
+- CLI integration remains unimplemented and requires a later separate Controller packet.
+- Output/file writing remains unimplemented and requires a later separate Controller packet.
+- Future schema widening may be needed if richer fallback or source metadata must become machine-readable.
+- Release readiness remains out of scope.
 
 ## Verification
 
