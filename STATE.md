@@ -1,6 +1,6 @@
 # Build State
 
-- Current slice: Slice 5f - Owner Product-Quality Acceptance and Slice 5 Promotion Record
+- Current slice: Slice 6a - Pack Generation Design Record / Contract Rulings
 - Status: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
@@ -50,8 +50,10 @@
 - Slice 5 Owner Product-Quality Validation: ACCEPTED DIRECTIONALLY FOR v1 with caveats; Owner selected the A path after Slice 5e review.
 - Slice 5 Sequencer Behavior: CLOSED / PROMOTED / REPO-RECORDED with caveats.
 - Slice 5f - Owner Product-Quality Acceptance and Slice 5 Promotion Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
-- Pack Generation, CLI Integration, UI, Release Work, Slice 6+, and Later Work: HOLD
-- Next eligible work: read-only preflight for the next SPEC slice after promoted sequencer behavior, likely Slice 6 / pack generation / output assembly preflight if SPEC confirms; no implementation is authorized by this record.
+- Slice 6 Pack Generation / Output Assembly Preflight: COMPLETE / READ-ONLY / NO FILES CHANGED / CONTROLLER ACCEPTED (baseline remained `14999f8b20771e72317b90ee318a19acb66c200d`)
+- Slice 6a - Pack Generation Design Record / Contract Rulings: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Pack Generation Implementation, CLI Integration, UI, Release Work, Slice 7+, and Later Work: HOLD
+- Next eligible work: Slice 6b Core Pack Assembler Foundation implementation may be prepared next; no implementation is authorized by this record.
 
 ## Amendments
 
@@ -216,6 +218,35 @@
 - Caveat: production representative intakes may still produce zero eligible candidates under the current `0.35` threshold.
 - Pack generation and CLI are not implemented.
 - Slice 6 and later work require a separate Controller packet.
+
+## Slice 6a Pack Generation Contract Rulings
+
+- Slice 6 implementation must be split. The next implementation slice should be Slice 6b Core Pack Assembler Foundation, not full CLI end-to-end.
+- Slice 6b should assemble a schema-valid `ContextPack` object from normalized intake, sequencer output, and scored candidate metadata.
+- CLI compile integration remains a later slice. File output and CLI write paths are not in Slice 6b unless separately authorized.
+- Markdown rendering may use the existing renderer only after the assembled core object passes validation.
+- The current `validatePack` budget rule remains unchanged for now. Slice 6b must not create invalid packs.
+- If sequencer output exceeds the +/-20% budget window because of low-confidence fallback behavior, Slice 6b must use a schema-valid handling strategy without hiding caveats.
+- Ruling for over-budget fallback handling: pack-level estimated minutes may use the schema-valid budget-capped estimate when required by current validation, while actual sequencer total and budget pressure must be preserved in allowed textual fields such as the project summary, artifact guidance, AI context block, or caveat text.
+- Pack assembly must not pretend the real sequencer total met budget when fallback output was over budget.
+- Schema or validator changes are not authorized in Slice 6b unless implementation proves impossible and Controller authorizes a schema-specific correction.
+- `packId` should be deterministic and derived from stable input data such as normalized project name, stage, selected resource IDs or URLs, and a stable short hash. Random IDs are not authorized for Slice 6b.
+- `createdAt` must be deterministic in tests. Slice 6b should support an optional clock or `createdAt` override; production defaults may use current time only behind that deterministic option and must remain valid ISO format.
+- `projectSummary` must be deterministic and template-based. It should summarize project name, stage, depth or time budget when available, confidence, and whether fallback or budget pressure exists. No LLM-generated prose is authorized.
+- Per-resource rationales must be deterministic template strings using available metadata such as path role, title, resource type, scores, eligibility or fallback status folded into text, and source tier folded into text when available.
+- Rationales must not invent content from unread pages or claim a resource contains information beyond its title, tags, domains, and recorded metadata.
+- `extractedPatterns` should use selected candidate `patterns` metadata when present, deduplicated deterministically in first-seen selected-path order. If no patterns exist, return an empty array or other existing schema-valid default; do not infer new patterns from URLs or titles.
+- `artifactGuidance` should be deterministic template guidance based on the stage profile, path roles, selected resource types, confidence, and fallback status. It must stay practical and generic rather than pretending to be a full narrative based on unread resource bodies.
+- `aiContextBlock` should be a deterministic template for downstream AI use that includes project and stage summary, ordered path/resources, confidence and caveats, fallback or budget-pressure warning when applicable, and an instruction not to treat fallback candidates as high-confidence sources.
+- Use the existing confidence enum. If the sequencer result is low confidence, the pack confidence must be low. Pack assembly must not upgrade confidence.
+- If fallback was used, caveat text must state that selected resources include below-threshold fallback candidates. If budget pressure exists, caveat text must state that actual sequencer time may exceed the requested budget.
+- Slice 6b should avoid schema changes and use the existing `ContextPack`, `Resource`, `PathItem`, and validation contracts where possible.
+- If the existing schema cannot honestly represent required caveats, implementation must stop and request a schema-specific design correction rather than silently widening the schema.
+- SPEC acceptance mentions CLI end-to-end, but the Controller boundary splits this into later slices. Slice 6b is core assembler only; Slice 6c or later may connect the assembler to engine/CLI once the core pack object is validated.
+- Slice 6b tests should cover deterministic pack generation with fixed `createdAt`, schema-valid output, markdown renderer compatibility where practical, low-confidence fallback caveats, eligible/high-confidence fixtures, pattern aggregation and dedupe, and input immutability.
+- Production-corpus smoke coverage may be included but should not be the only Slice 6b acceptance path.
+- Owner product-quality validation will be required after generated sample ContextPacks exist. Slice 6b implementation alone does not promote full pack-generation quality until sample pack outputs are reviewed.
+- Pack generation CLI integration, output writing, release work, UI, schema widening, scoring/corpus/provider changes, and Slice 7+ remain HOLD.
 
 ## Verification
 
