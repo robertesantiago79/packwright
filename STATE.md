@@ -1,6 +1,6 @@
 # Build State
 
-- Current slice: Slice 5d.1 - Fallback Quality Controller Acceptance Record
+- Current slice: Slice 5f - Owner Product-Quality Acceptance and Slice 5 Promotion Record
 - Status: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
@@ -46,8 +46,12 @@
 - Slice 5c - Sequencer Sample Output Validation: COMPLETE / READ-ONLY / CONTROLLER ACCEPTED (no tracked files changed; no commit or push)
 - Slice 5d - Fallback Selection Quality Correction: IMPLEMENTED / GATED / COMMITTED / PUSHED / CONTROLLER ACCEPTED (commit `e2ba2518ce7af43857da7969b41f9f8892762fd5`)
 - Slice 5d.1 - Fallback Quality Controller Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
-- Slice 5 Promotion and Later Work: HOLD
-- Next eligible work: another read-only sequencer sample-output validation under a separate Controller packet; pack generation, CLI integration, full Slice 5 promotion, and later work remain HOLD.
+- Slice 5e - Post-Correction Sequencer Sample Output Validation: COMPLETE / READ-ONLY / CONTROLLER ACCEPTED (no tracked files changed; no commit or push)
+- Slice 5 Owner Product-Quality Validation: ACCEPTED DIRECTIONALLY FOR v1 with caveats; Owner selected the A path after Slice 5e review.
+- Slice 5 Sequencer Behavior: CLOSED / PROMOTED / REPO-RECORDED with caveats.
+- Slice 5f - Owner Product-Quality Acceptance and Slice 5 Promotion Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Pack Generation, CLI Integration, UI, Release Work, Slice 6+, and Later Work: HOLD
+- Next eligible work: read-only preflight for the next SPEC slice after promoted sequencer behavior, likely Slice 6 / pack generation / output assembly preflight if SPEC confirms; no implementation is authorized by this record.
 
 ## Amendments
 
@@ -199,6 +203,20 @@
 - Slice 5d is controller accepted at commit `e2ba2518ce7af43857da7969b41f9f8892762fd5`.
 - Full Slice 5 promotion remains HOLD pending another sample-output validation and Owner product-quality review.
 
+## Slice 5e/5f Sequencer Promotion
+
+- Slice 5e post-correction sample-output validation completed read-only with no tracked file changes, no commit, and no push.
+- Owner product-quality validation accepted Slice 5 sequencer behavior directionally for v1 after Slice 5e review and selected the A path.
+- Slice 5 sequencer behavior is CLOSED / PROMOTED / REPO-RECORDED with caveats.
+- Promotion covers sequencer behavior only. It does not include pack generation, CLI integration, UI, release work, or later slices.
+- Caveat: production fallback paths may still exceed requested time budgets.
+- Caveat: fallback paths remain low confidence where below-threshold candidates dominate.
+- Caveat: below-threshold candidates remain fallback-only and are not eligible candidates.
+- Caveat: PRD-stage quality may require future corpus or scoring tuning.
+- Caveat: production representative intakes may still produce zero eligible candidates under the current `0.35` threshold.
+- Pack generation and CLI are not implemented.
+- Slice 6 and later work require a separate Controller packet.
+
 ## Verification
 
 - `npm run build`: PASS
@@ -286,3 +304,7 @@
 - Slice 5d `npm test`: PASS (62 tests)
 - Slice 5d `npm run lint`: PASS
 - Slice 5d `npm audit`: PASS (0 vulnerabilities)
+- Slice 5f `npm run build`: PASS
+- Slice 5f `npm test`: PASS (62 tests)
+- Slice 5f `npm run lint`: PASS
+- Slice 5f `npm audit`: PASS (0 vulnerabilities)
