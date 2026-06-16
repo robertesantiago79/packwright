@@ -1,6 +1,6 @@
 # Build State
 
-- Current slice: Slice 6b - Core Pack Assembler Foundation
+- Current slice: Slice 6b.1 - Core Pack Assembler Controller Acceptance Record
 - Status: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
@@ -52,9 +52,10 @@
 - Slice 5f - Owner Product-Quality Acceptance and Slice 5 Promotion Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Slice 6 Pack Generation / Output Assembly Preflight: COMPLETE / READ-ONLY / NO FILES CHANGED / CONTROLLER ACCEPTED (baseline remained `14999f8b20771e72317b90ee318a19acb66c200d`)
 - Slice 6a - Pack Generation Design Record / Contract Rulings: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
-- Slice 6b - Core Pack Assembler Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Slice 6b - Core Pack Assembler Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / CONTROLLER ACCEPTED (commit `c4ada13ad869c76983f21bcf0f2e2ae845bfffe8`)
+- Slice 6b.1 - Core Pack Assembler Controller Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Pack generation promotion, CLI integration, output writing, UI, release work, Slice 7+, and later work: HOLD
-- Next eligible work: read-only sample ContextPack output validation may be prepared next; no CLI integration, file output, schema widening, or promotion is authorized by this record.
+- Next eligible work: Slice 6c Read-only Generated ContextPack Sample Output Validation may be prepared next; Owner product-quality validation remains pending until sample ContextPacks are reviewed. CLI integration and output writing require later separate Controller packets.
 
 ## Amendments
 
@@ -263,6 +264,7 @@
 - Current schema and validator behavior remain unchanged. When sequencer actual time is outside the validation budget window, the assembler uses schema-valid resource estimates and preserves the actual sequencer total in caveat text rather than claiming the actual total met budget.
 - Assembled packs are validated with the existing `validatePack`; validation failures are surfaced rather than suppressed.
 - Focused tests cover schema-valid eligible pack assembly, low-confidence fallback caveats, budget-pressure handling, deterministic output, pattern aggregation, renderer compatibility, and input immutability.
+- Slice 6b is controller accepted at commit `c4ada13ad869c76983f21bcf0f2e2ae845bfffe8`.
 - Generated ContextPack usefulness still requires read-only sample-output validation and Owner product-quality review before any Slice 6 promotion.
 - CLI integration, output writing, schema widening, pack-generation promotion, UI, release work, and Slice 7+ remain HOLD.
 
