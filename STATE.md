@@ -1,6 +1,6 @@
 # Build State
 
-- Current slice: Slice 6a - Pack Generation Design Record / Contract Rulings
+- Current slice: Slice 6b - Core Pack Assembler Foundation
 - Status: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
@@ -52,8 +52,9 @@
 - Slice 5f - Owner Product-Quality Acceptance and Slice 5 Promotion Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Slice 6 Pack Generation / Output Assembly Preflight: COMPLETE / READ-ONLY / NO FILES CHANGED / CONTROLLER ACCEPTED (baseline remained `14999f8b20771e72317b90ee318a19acb66c200d`)
 - Slice 6a - Pack Generation Design Record / Contract Rulings: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
-- Pack Generation Implementation, CLI Integration, UI, Release Work, Slice 7+, and Later Work: HOLD
-- Next eligible work: Slice 6b Core Pack Assembler Foundation implementation may be prepared next; no implementation is authorized by this record.
+- Slice 6b - Core Pack Assembler Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Pack generation promotion, CLI integration, output writing, UI, release work, Slice 7+, and later work: HOLD
+- Next eligible work: read-only sample ContextPack output validation may be prepared next; no CLI integration, file output, schema widening, or promotion is authorized by this record.
 
 ## Amendments
 
@@ -247,6 +248,23 @@
 - Production-corpus smoke coverage may be included but should not be the only Slice 6b acceptance path.
 - Owner product-quality validation will be required after generated sample ContextPacks exist. Slice 6b implementation alone does not promote full pack-generation quality until sample pack outputs are reviewed.
 - Pack generation CLI integration, output writing, release work, UI, schema widening, scoring/corpus/provider changes, and Slice 7+ remain HOLD.
+
+## Slice 6b Core Pack Assembler Foundation
+
+- Added a core pack assembler that creates a schema-valid `ContextPack` object from normalized intake-compatible data, sequencer output, and scored selected candidate metadata.
+- The assembler is exported from `src/core/packgen/index.ts` as `assembleContextPack`; the existing Markdown renderer is also exported from that index.
+- Scope remained core assembler only. No CLI integration, file writing, schema or validator changes, scoring changes, threshold changes, corpus changes, provider changes, sequencer behavior changes, dependency additions, UI, release work, or Slice 7+ work was included.
+- `packId` is deterministic and derived from normalized project/stage and selected resource IDs through a stable short hash.
+- `createdAt` accepts a deterministic override for tests; production default remains isolated behind the option and uses a valid ISO timestamp.
+- The assembler emits deterministic template-based project summary, per-resource rationales, artifact guidance, and AI context block content. No LLM synthesis or unread page-content claims are used.
+- Selected candidate `patterns` metadata is aggregated into `extractedPatterns`, deduplicated in first-seen selected path order. Patterns are not inferred from URLs or titles.
+- Existing confidence is preserved and never upgraded during pack assembly. Low-confidence sequencer output remains low-confidence pack output.
+- Below-threshold fallback and budget-pressure caveats are preserved in allowed textual fields including confidence notes, project summary, rationales, artifact guidance, and AI context block.
+- Current schema and validator behavior remain unchanged. When sequencer actual time is outside the validation budget window, the assembler uses schema-valid resource estimates and preserves the actual sequencer total in caveat text rather than claiming the actual total met budget.
+- Assembled packs are validated with the existing `validatePack`; validation failures are surfaced rather than suppressed.
+- Focused tests cover schema-valid eligible pack assembly, low-confidence fallback caveats, budget-pressure handling, deterministic output, pattern aggregation, renderer compatibility, and input immutability.
+- Generated ContextPack usefulness still requires read-only sample-output validation and Owner product-quality review before any Slice 6 promotion.
+- CLI integration, output writing, schema widening, pack-generation promotion, UI, release work, and Slice 7+ remain HOLD.
 
 ## Verification
 
