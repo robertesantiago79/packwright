@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 6e - Engine Compile Pipeline Foundation
-- Status: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 6e.1 - Engine Compile Pipeline Controller Acceptance Record
+- Status: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -58,9 +58,10 @@
 - Slice 6 Owner Product-Quality Validation: ACCEPTED DIRECTIONALLY FOR v1 with caveats; Owner selected the A path after Slice 6c review.
 - Core Generated ContextPack Output Quality: ACCEPTED FOR v1 WITH CAVEATS / REPO-RECORDED BY SLICE 6d
 - Slice 6d - Owner Product-Quality Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
-- Slice 6e - Engine Compile Pipeline Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Slice 6e - Engine Compile Pipeline Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / CONTROLLER ACCEPTED (commit `a41b316c1a01ae0fc92d36ddac063112a7a20ff2`)
+- Slice 6e.1 - Engine Compile Pipeline Controller Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Pack generation promotion, CLI integration, output writing, UI, release work, Slice 7+, and later work: HOLD
-- Next eligible work: read-only preflight or a bounded packet for CLI compile integration and output writing may be prepared next if Controller authorizes it. No implementation is authorized by this record, and CLI integration and output writing require later separate Controller packets.
+- Next eligible work: CLI compile integration preflight or a bounded CLI compile integration packet may be prepared next if Controller authorizes it. Output writing should remain separate unless a future packet explicitly combines it. JSON/Markdown file output, output directory policy, overwrite policy, and CLI-visible sample validation remain pending. No implementation is authorized by this record.
 
 ## Amendments
 
@@ -294,12 +295,23 @@
 ## Slice 6e Engine Compile Pipeline Foundation
 
 - Replaced the core engine compile stub with a real core pipeline that normalizes intake, loads the promoted production corpus, aggregates candidates, ranks candidates, sequences a resource path, assembles a schema-valid `ContextPack`, renders Markdown, and returns `{ pack, markdown }`.
+- Slice 6e is controller accepted at commit `a41b316c1a01ae0fc92d36ddac063112a7a20ff2`.
 - The engine API accepts a deterministic `createdAt` override for tests and preserves the assembler's deterministic `packId` behavior.
 - `candidateCap` remains optional and defaults to the promoted provider/aggregator maximum. `sourceDir` is available only as a deterministic source-location option and defaults to `sources/product-building.yaml`.
 - The pipeline uses existing accepted components: `normalizeIntake`, `CuratedListProvider`, `aggregateCandidates`, `rankAllCandidates`, `sequenceCandidates`, `assembleContextPack`, and `renderPack`.
 - No CLI argument parsing, file writing, output directory behavior, overwrite policy, schema or validator changes, scoring changes, threshold changes, sequencer behavior changes, corpus changes, provider behavior changes, dependency additions, release work, Owner acceptance claim, or Slice 6 promotion is included.
 - Focused engine tests cover schema-valid pack compilation, Markdown section rendering, deterministic output with fixed `createdAt`, caller-intake immutability, fallback/caveat preservation, and invalid intake rejection through the existing normalizer.
 - CLI integration, JSON/Markdown file output, output directory and overwrite policy, CLI-visible sample validation, release readiness, and Slice 6 promotion remain HOLD pending separate Controller packets.
+
+## Slice 6e.1 Engine Compile Pipeline Controller Acceptance Record
+
+- This record is STATE.md-only and records Controller acceptance of Slice 6e.
+- Accepted Slice 6e files were `src/core/index.ts`, `test/engine.test.ts`, and `STATE.md`.
+- Accepted Slice 6e gates passed: build PASS, tests PASS with 71 tests, lint PASS, and audit PASS with 0 vulnerabilities.
+- Preserved behavior: `engine.compile(input, options)` returns `{ pack, markdown }`; intake normalization is connected; promoted corpus loading uses `CuratedListProvider`; candidate aggregation is connected; ranking uses `rankAllCandidates`; sequencing uses `sequenceCandidates`; pack assembly uses `assembleContextPack`; Markdown rendering uses `renderPack`.
+- Preserved options and quality coverage: deterministic `createdAt`, `candidateCap`, and `sourceDir` are supported; caller intake is not mutated; fallback and caveat preservation is covered; invalid intake rejection goes through the existing normalizer.
+- No CLI argument parsing, file/output writing, output directory behavior, overwrite policy, schema or validator changes, scoring/threshold/sequencer/corpus/provider changes, dependency changes, full Slice 6 promotion, or release readiness claim is included.
+- Next eligible work may be CLI compile integration preflight or a bounded CLI compile integration packet if Controller authorizes it. Output writing should remain separate unless a future packet explicitly combines it.
 
 ## Verification
 
