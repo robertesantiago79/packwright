@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 6e.1 - Engine Compile Pipeline Controller Acceptance Record
-- Status: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 6g - CLI Compile Integration Foundation
+- Status: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -60,8 +60,10 @@
 - Slice 6d - Owner Product-Quality Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Slice 6e - Engine Compile Pipeline Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / CONTROLLER ACCEPTED (commit `a41b316c1a01ae0fc92d36ddac063112a7a20ff2`)
 - Slice 6e.1 - Engine Compile Pipeline Controller Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Slice 6f - CLI Compile Integration Preflight: COMPLETE / READ-ONLY / CONTROLLER ACCEPTED (no tracked files changed; no commit or push)
+- Slice 6g - CLI Compile Integration Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Pack generation promotion, CLI integration, output writing, UI, release work, Slice 7+, and later work: HOLD
-- Next eligible work: CLI compile integration preflight or a bounded CLI compile integration packet may be prepared next if Controller authorizes it. Output writing should remain separate unless a future packet explicitly combines it. JSON/Markdown file output, output directory policy, overwrite policy, and CLI-visible sample validation remain pending. No implementation is authorized by this record.
+- Next eligible work: Slice 6g.1 controller acceptance record after review, or output writing preflight after acceptance. JSON/Markdown file output, output directory policy, overwrite policy, and full Slice 6 promotion remain pending. No later implementation is authorized by this record.
 
 ## Amendments
 
@@ -312,6 +314,18 @@
 - Preserved options and quality coverage: deterministic `createdAt`, `candidateCap`, and `sourceDir` are supported; caller intake is not mutated; fallback and caveat preservation is covered; invalid intake rejection goes through the existing normalizer.
 - No CLI argument parsing, file/output writing, output directory behavior, overwrite policy, schema or validator changes, scoring/threshold/sequencer/corpus/provider changes, dependency changes, full Slice 6 promotion, or release readiness claim is included.
 - Next eligible work may be CLI compile integration preflight or a bounded CLI compile integration packet if Controller authorizes it. Output writing should remain separate unless a future packet explicitly combines it.
+
+## Slice 6g CLI Compile Integration Foundation
+
+- Added CLI parsing for `compile --file <path>`.
+- Added `fixtures/omniagent-intake.json` to mirror the representative OmniAgent-style intake fixture required by SPEC command parity.
+- The CLI reads JSON intake from disk, calls `engine.compile`, and prints a parseable `{ pack, markdown }` JSON envelope to stdout.
+- Expected user errors now print concise stderr messages and exit nonzero for unknown command, missing `--file`, missing file value, unreadable file, invalid JSON, and invalid intake.
+- Help text now documents `packwright compile --file <path>` and the SPEC example command.
+- A narrow `PACKWRIGHT_FIXED_CREATED_AT` environment variable is supported as a deterministic CLI test hook and is not a broader product configuration system.
+- Focused CLI tests cover the successful SPEC fixture command, stdout envelope parsing, `validatePack` success, Markdown sections, missing `--file`, unreadable file, invalid JSON, invalid intake, unknown command, help output, and no generated `packs/` output files.
+- Scope remained CLI compile stdout integration only. No JSON/Markdown output-file writing, `packs/` directory behavior, output directory option, overwrite policy, schema or validator changes, scoring changes, threshold changes, sequencer behavior changes, corpus changes, provider behavior changes, engine behavior changes, dependency additions, Owner acceptance claim, full Slice 6 promotion, or release readiness claim is included.
+- Next eligible work is Slice 6g.1 controller acceptance record after review, or output writing preflight after acceptance. CLI-visible sample validation and full Slice 6 promotion remain pending.
 
 ## Verification
 
