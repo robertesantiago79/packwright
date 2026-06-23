@@ -1,6 +1,6 @@
 # Build State
 
-- Current slice: Slice 6i.1 - Output Writing Foundation Controller Acceptance Record
+- Current slice: Slice 6j.1 - CLI-Visible Sample Validation Record
 - Status: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
@@ -66,8 +66,10 @@
 - Slice 6g.1 - CLI Compile Integration Controller Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Slice 6i - Output Writing Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / CONTROLLER ACCEPTED (commit `4c324082093a5d3af3c7e068988a47122325d680`)
 - Slice 6i.1 - Output Writing Foundation Controller Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Slice 6j - CLI-Visible Sample Validation: COMPLETE / READ-ONLY / CONTROLLER ACCEPTED (no tracked files changed; no commit or push; baseline remained `2d9e3952ab30665b261bc49f6b249dbd57405970`)
+- Slice 6j.1 - CLI-Visible Sample Validation Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Pack generation promotion, CLI integration, output writing, UI, release work, Slice 7+, and later work: HOLD
-- Next eligible work: CLI-visible sample validation after Controller acceptance. Full Slice 6 promotion remains HOLD until final validation and Owner/Controller acceptance. Output directory policy only covers explicit `--out <dir>` for now. No later implementation is authorized by this record.
+- Next eligible work: final Slice 6 promotion preflight/record after Controller acceptance. Full Slice 6 promotion remains HOLD until final validation and Owner/Controller acceptance. Output directory policy only covers explicit `--out <dir>` for now. No later implementation is authorized by this record.
 
 ## Amendments
 
@@ -384,6 +386,32 @@
 - Accepted manual smoke: temp output files were written under Termux tmp; packId was `pack-b3dfaec0d48d9840`; JSON and Markdown files existed; envelope/file packId matched; Markdown contained `## Learning Path` and `## AI Context Block`.
 - Boundaries preserved: no schema or validator changes, no engine behavior changes, no renderer behavior changes except using existing rendered Markdown, no scoring/threshold/sequencer/corpus/provider changes, no dependency changes, no package script changes, no `.gitignore` change, no committed generated output, no `--force`, no full Slice 6 promotion, no Owner acceptance claim, and no release readiness claim.
 - CLI-visible sample validation is next eligible after Controller acceptance. Full Slice 6 promotion remains HOLD until final validation and Owner/Controller acceptance. Output directory policy only covers explicit `--out <dir>` for now. No later implementation is authorized by this record.
+
+## Slice 6j CLI-Visible Sample Validation
+
+- Slice 6j completed as a read-only CLI-visible sample validation with no tracked files changed, no commit, and no push. The baseline remained `2d9e3952ab30665b261bc49f6b249dbd57405970`.
+- No-output command emitted parseable `{ pack, markdown }` JSON successfully.
+- No-output validation evidence: packId `pack-b3dfaec0d48d9840`; resource count `8`; Markdown length `7133`; Markdown included `## Learning Path` and `## AI Context Block`.
+- Output-writing command created `<packId>.json` and `<packId>.md` in temp output.
+- Output-writing validation evidence: JSON file matched the envelope pack exactly; JSON file contained the `ContextPack` object only; Markdown file matched the envelope Markdown after trailing-newline normalization; envelope packId, JSON packId, and filenames matched.
+- Overwrite validation evidence: a second output-writing run exited nonzero with exit code `1`; stderr contained a concise existing-file message: `Error: output file already exists: ...pack-b3dfaec0d48d9840.json`. Overwrite refusal is accepted.
+- Temp outputs were cleaned and the worktree remained clean.
+- Product-quality observation: Markdown is readable and structurally useful with clear Learning Path, extracted patterns, artifact guidance, confidence notes, and AI context block.
+- Visible caveats remain: sample confidence is low; all selected resources are fallback docs; actual sequencer estimate is 122 minutes against a 30-minute request.
+- The caveats are visible and honestly represented. No correction slice is required before final Slice 6 promotion consideration.
+- Accepted gates: `npm test` PASS with 9 files and 83 tests; `npm run lint` PASS; `npm audit` PASS with 0 vulnerabilities; build skipped because Slice 6j was read-only validation and build writes `dist/`.
+
+## Slice 6j.1 CLI-Visible Sample Validation Record
+
+- This record is STATE.md-only and records Controller acceptance of Slice 6j.
+- Slice 6j.1 records Slice 6j as COMPLETE / READ-ONLY / CONTROLLER ACCEPTED with no tracked files changed, no commit, and no push.
+- Preserved no-output validation: command emitted parseable `{ pack, markdown }` JSON; packId was `pack-b3dfaec0d48d9840`; resource count was `8`; Markdown length was `7133`; Markdown included `## Learning Path` and `## AI Context Block`.
+- Preserved output-writing validation: output-writing command created `<packId>.json` and `<packId>.md` in temp output; JSON file matched envelope pack exactly; JSON file contained the `ContextPack` object only; Markdown file matched envelope Markdown after trailing-newline normalization; envelope packId, JSON packId, and filenames matched.
+- Preserved overwrite validation: second output-writing run exited nonzero with exit code `1`; stderr contained a concise existing-file message; overwrite refusal is accepted.
+- Preserved product-quality finding: Markdown is readable and structurally useful; output is good enough for final Slice 6 promotion consideration; caveats remain visible for low confidence, fallback docs, and actual sequencer estimate of 122 minutes against a 30-minute request.
+- No correction slice is recommended before final Slice 6 promotion consideration.
+- Preserved gates: `npm test` PASS with 9 files and 83 tests; `npm run lint` PASS; `npm audit` PASS with 0 vulnerabilities; build skipped because read-only validation and build writes `dist/`.
+- Remaining holds: final Slice 6 promotion remains HOLD; final Slice 6 promotion preflight/record is next eligible after Controller acceptance; output directory policy only covers explicit `--out <dir>`; no `--force`; no Owner acceptance claim; no release readiness claim; no later implementation is authorized by this record.
 
 ## Verification
 
