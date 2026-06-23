@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 6g.1 - CLI Compile Integration Controller Acceptance Record
-- Status: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 6i - Output Writing Foundation
+- Status: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -64,8 +64,9 @@
 - Slice 6g - CLI Compile Integration Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / CONTROLLER ACCEPTED (commit `783f404d597eaaed051b32a83e4fe7e0cfd33cc7`)
 - Slice 6g.x - CLI SPEC Command Stdout Parity Review: COMPLETE / READ-ONLY / CONTROLLER ACCEPTED (no tracked files changed; no commit or push; baseline remained `783f404d597eaaed051b32a83e4fe7e0cfd33cc7`)
 - Slice 6g.1 - CLI Compile Integration Controller Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Slice 6i - Output Writing Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Pack generation promotion, CLI integration, output writing, UI, release work, Slice 7+, and later work: HOLD
-- Next eligible work: Output writing preflight may be prepared after Controller acceptance. CLI-visible sample validation may be needed after acceptance, but output writing remains the main pending capability. JSON/Markdown file output, `packs/` directory behavior, output directory policy, overwrite policy, and full Slice 6 promotion remain pending. No implementation is authorized by this record.
+- Next eligible work: Slice 6i.1 controller acceptance record after review, then final CLI-visible sample validation after acceptance. Full Slice 6 promotion remains HOLD until final validation and Owner/Controller acceptance. No later implementation is authorized by this record.
 
 ## Amendments
 
@@ -350,6 +351,20 @@
 - Accepted stdout rule: direct CLI invocation emits parseable JSON stdout; machine-parseable npm invocation is `npm run --silent cli -- compile --file fixtures/omniagent-intake.json`; non-silent npm may prepend npm wrapper/banner output and is not the machine-parseable stdout contract.
 - Boundaries preserved: no generated `packs/` output files are written; no JSON/Markdown output-file writing, `packs/` directory behavior, output directory policy, overwrite policy, schema or validator changes, engine behavior changes, scoring/threshold/sequencer/corpus/provider changes, dependency changes, full Slice 6 promotion, or release readiness claim is included.
 - Output writing preflight may be prepared next after Controller acceptance. CLI-visible sample validation may be needed after acceptance, but output writing remains the main pending capability. No implementation is authorized by this record.
+
+## Slice 6i Output Writing Foundation
+
+- Added opt-in CLI output writing with `compile --file <path> --out <dir>`.
+- When `--out` is omitted, the Slice 6g stdout envelope behavior is preserved and no files are written.
+- When `--out <dir>` is supplied, the CLI creates the output directory if missing and writes `<packId>.json` plus `<packId>.md`.
+- The JSON file contains the `ContextPack` object only. The Markdown file contains the rendered Markdown only. Stdout continues to emit the full parseable `{ pack, markdown }` envelope.
+- Output filenames are derived exactly from `pack.packId` with `.json` and `.md` extensions.
+- Existing target files are refused by default before either output file is written. No `--force` behavior is included.
+- Expected output-writing errors use concise stderr, nonzero exit, and no stack traces for missing `--out` value, output path as file, existing target files, directory creation failure, and write failure.
+- Focused tests cover no-output behavior, temp-directory output writing, JSON validation, Markdown sections, stdout parsing, missing `--out` value, output path as file, existing JSON target refusal, existing Markdown target refusal, and no stack traces for expected errors.
+- No generated outputs or `packs/` directory are committed.
+- Boundaries preserved: no schema or validator changes, no engine behavior changes, no renderer behavior changes except using existing rendered Markdown, no scoring/threshold/sequencer/corpus/provider changes, no dependency changes, no package script changes, no full Slice 6 promotion, and no release readiness claim.
+- Next eligible work is Slice 6i.1 controller acceptance record after review. Final CLI-visible sample validation remains pending after acceptance. Full Slice 6 promotion remains HOLD until final validation and Owner/Controller acceptance.
 
 ## Verification
 

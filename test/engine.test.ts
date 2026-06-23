@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import { existsSync, readdirSync } from "node:fs";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 
@@ -17,6 +17,13 @@ interface CliResult {
   code: number | null;
   stdout: string;
   stderr: string;
+}
+
+interface CliEnvelope {
+  pack: {
+    packId: string;
+  };
+  markdown: string;
 }
 
 function clone<T>(value: T): T {
@@ -78,6 +85,10 @@ function runCli(args: readonly string[]): Promise<CliResult> {
 
 function expectNoStackTrace(stderr: string): void {
   expect(stderr).not.toContain(" at ");
+}
+
+function parseCliEnvelope(stdout: string): CliEnvelope {
+  return JSON.parse(stdout) as CliEnvelope;
 }
 
 describe("engine compile pipeline", () => {
@@ -160,10 +171,7 @@ describe("CLI compile integration", () => {
 
     expect(result.code).toBe(0);
     expect(result.stderr).toBe("");
-    const envelope = JSON.parse(result.stdout) as {
-      pack?: unknown;
-      markdown?: unknown;
-    };
+    const envelope = parseCliEnvelope(result.stdout);
 
     expect(envelope.pack).toBeDefined();
     expect(typeof envelope.markdown).toBe("string");
@@ -176,6 +184,38 @@ describe("CLI compile integration", () => {
     expect(listPackOutputs()).toEqual(packOutputsBefore);
   });
 
+  it("writes JSON and Markdown files when --out is provided", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "packwright-cli-out-"));
+    try {
+      const result = await runCli([
+        "compile",
+        "--file",
+        "fixtures/omniagent-intake.json",
+        "--out",
+        dir,
+      ]);
+
+      expect(result.code).toBe(0);
+      expect(result.stderr).toBe("");
+      const envelope = parseCliEnvelope(result.stdout);
+      const jsonPath = join(dir, `${envelope.pack.packId}.json`);
+      const markdownPath = join(dir, `${envelope.pack.packId}.md`);
+      const packFile = JSON.parse(await readFile(jsonPath, "utf8")) as unknown;
+      const markdownFile = await readFile(markdownPath, "utf8");
+
+      expect(validatePack(packFile)).toEqual({
+        valid: true,
+        errors: [],
+      });
+      expect(packFile).toEqual(envelope.pack);
+      expect(markdownFile.trimEnd()).toBe(envelope.markdown.trimEnd());
+      expect(markdownFile).toContain("## Learning Path");
+      expect(markdownFile).toContain("## AI Context Block");
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
   it("reports missing --file without a stack trace", async () => {
     const result = await runCli(["compile"]);
 
@@ -183,6 +223,98 @@ describe("CLI compile integration", () => {
     expect(result.stdout).toBe("");
     expect(result.stderr).toContain("missing required --file <path>");
     expectNoStackTrace(result.stderr);
+  });
+
+  it("reports missing --out value without a stack trace", async () => {
+    const result = await runCli([
+      "compile",
+      "--file",
+      "fixtures/omniagent-intake.json",
+      "--out",
+    ]);
+
+    expect(result.code).not.toBe(0);
+    expect(result.stdout).toBe("");
+    expect(result.stderr).toContain("missing value for --out <dir>");
+    expectNoStackTrace(result.stderr);
+  });
+
+  it("reports output paths that exist as files without a stack trace", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "packwright-cli-out-"));
+    try {
+      const filePath = join(dir, "not-a-directory");
+      await writeFile(filePath, "not a directory", "utf8");
+      const result = await runCli([
+        "compile",
+        "--file",
+        "fixtures/omniagent-intake.json",
+        "--out",
+        filePath,
+      ]);
+
+      expect(result.code).not.toBe(0);
+      expect(result.stdout).toBe("");
+      expect(result.stderr).toContain("output path exists and is not a directory");
+      expectNoStackTrace(result.stderr);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("refuses existing JSON output before writing Markdown", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "packwright-cli-out-"));
+    try {
+      const { pack } = await engine.compile(omniAgentIntake, {
+        createdAt: FIXED_CREATED_AT,
+      });
+      const existingJson = join(dir, `${pack.packId}.json`);
+      const expectedContent = "existing json";
+      await writeFile(existingJson, expectedContent, "utf8");
+      const result = await runCli([
+        "compile",
+        "--file",
+        "fixtures/omniagent-intake.json",
+        "--out",
+        dir,
+      ]);
+
+      expect(result.code).not.toBe(0);
+      expect(result.stdout).toBe("");
+      expect(result.stderr).toContain("output file already exists");
+      expect(await readFile(existingJson, "utf8")).toBe(expectedContent);
+      expect(existsSync(join(dir, `${pack.packId}.md`))).toBe(false);
+      expectNoStackTrace(result.stderr);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("refuses existing Markdown output before writing JSON", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "packwright-cli-out-"));
+    try {
+      const { pack } = await engine.compile(omniAgentIntake, {
+        createdAt: FIXED_CREATED_AT,
+      });
+      const existingMarkdown = join(dir, `${pack.packId}.md`);
+      const expectedContent = "existing markdown";
+      await writeFile(existingMarkdown, expectedContent, "utf8");
+      const result = await runCli([
+        "compile",
+        "--file",
+        "fixtures/omniagent-intake.json",
+        "--out",
+        dir,
+      ]);
+
+      expect(result.code).not.toBe(0);
+      expect(result.stdout).toBe("");
+      expect(result.stderr).toContain("output file already exists");
+      expect(await readFile(existingMarkdown, "utf8")).toBe(expectedContent);
+      expect(existsSync(join(dir, `${pack.packId}.json`))).toBe(false);
+      expectNoStackTrace(result.stderr);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
   });
 
   it("reports unreadable input files without a stack trace", async () => {
@@ -249,5 +381,6 @@ describe("CLI compile integration", () => {
     expect(result.code).toBe(0);
     expect(result.stderr).toBe("");
     expect(result.stdout).toContain("packwright compile --file <path>");
+    expect(result.stdout).toContain("packwright compile --file <path> --out <dir>");
   });
 });
