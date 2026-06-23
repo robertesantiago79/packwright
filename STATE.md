@@ -1,7 +1,7 @@
 # Build State
 
-- Current slice: Slice 6g - CLI Compile Integration Foundation
-- Status: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Current slice: Slice 6g.1 - CLI Compile Integration Controller Acceptance Record
+- Status: RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Deviations:
   - A repository-local Git identity is used because no global Git identity is configured in Termux.
   - Slice 1 implementation deviations: None.
@@ -61,9 +61,11 @@
 - Slice 6e - Engine Compile Pipeline Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / CONTROLLER ACCEPTED (commit `a41b316c1a01ae0fc92d36ddac063112a7a20ff2`)
 - Slice 6e.1 - Engine Compile Pipeline Controller Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Slice 6f - CLI Compile Integration Preflight: COMPLETE / READ-ONLY / CONTROLLER ACCEPTED (no tracked files changed; no commit or push)
-- Slice 6g - CLI Compile Integration Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
+- Slice 6g - CLI Compile Integration Foundation: IMPLEMENTED / GATED / COMMITTED / PUSHED / CONTROLLER ACCEPTED (commit `783f404d597eaaed051b32a83e4fe7e0cfd33cc7`)
+- Slice 6g.x - CLI SPEC Command Stdout Parity Review: COMPLETE / READ-ONLY / CONTROLLER ACCEPTED (no tracked files changed; no commit or push; baseline remained `783f404d597eaaed051b32a83e4fe7e0cfd33cc7`)
+- Slice 6g.1 - CLI Compile Integration Controller Acceptance Record: STATE.md-ONLY / RECORDED / GATED / COMMITTED / PUSHED / PENDING CONTROLLER CONFIRMATION
 - Pack generation promotion, CLI integration, output writing, UI, release work, Slice 7+, and later work: HOLD
-- Next eligible work: Slice 6g.1 controller acceptance record after review, or output writing preflight after acceptance. JSON/Markdown file output, output directory policy, overwrite policy, and full Slice 6 promotion remain pending. No later implementation is authorized by this record.
+- Next eligible work: Output writing preflight may be prepared after Controller acceptance. CLI-visible sample validation may be needed after acceptance, but output writing remains the main pending capability. JSON/Markdown file output, `packs/` directory behavior, output directory policy, overwrite policy, and full Slice 6 promotion remain pending. No implementation is authorized by this record.
 
 ## Amendments
 
@@ -317,6 +319,7 @@
 
 ## Slice 6g CLI Compile Integration Foundation
 
+- Slice 6g is controller accepted at commit `783f404d597eaaed051b32a83e4fe7e0cfd33cc7`.
 - Added CLI parsing for `compile --file <path>`.
 - Added `fixtures/omniagent-intake.json` to mirror the representative OmniAgent-style intake fixture required by SPEC command parity.
 - The CLI reads JSON intake from disk, calls `engine.compile`, and prints a parseable `{ pack, markdown }` JSON envelope to stdout.
@@ -325,7 +328,28 @@
 - A narrow `PACKWRIGHT_FIXED_CREATED_AT` environment variable is supported as a deterministic CLI test hook and is not a broader product configuration system.
 - Focused CLI tests cover the successful SPEC fixture command, stdout envelope parsing, `validatePack` success, Markdown sections, missing `--file`, unreadable file, invalid JSON, invalid intake, unknown command, help output, and no generated `packs/` output files.
 - Scope remained CLI compile stdout integration only. No JSON/Markdown output-file writing, `packs/` directory behavior, output directory option, overwrite policy, schema or validator changes, scoring changes, threshold changes, sequencer behavior changes, corpus changes, provider behavior changes, engine behavior changes, dependency additions, Owner acceptance claim, full Slice 6 promotion, or release readiness claim is included.
-- Next eligible work is Slice 6g.1 controller acceptance record after review, or output writing preflight after acceptance. CLI-visible sample validation and full Slice 6 promotion remain pending.
+- Next eligible work may be output writing preflight after Controller acceptance. CLI-visible sample validation may be needed after acceptance, but output writing remains the main pending capability. Full Slice 6 promotion remains HOLD until output writing and final acceptance gates are complete.
+
+## Slice 6g.x CLI SPEC Command Stdout Parity Review
+
+- Slice 6g.x completed as a read-only parity review with no tracked files changed, no commit, and no push. The baseline remained `783f404d597eaaed051b32a83e4fe7e0cfd33cc7`.
+- Direct CLI invocation emits parseable JSON stdout.
+- Machine-parseable npm invocation is `npm run --silent cli -- compile --file fixtures/omniagent-intake.json`.
+- Non-silent npm invocation may prepend npm wrapper/banner output to stdout: `npm run cli -- compile --file fixtures/omniagent-intake.json`.
+- Non-silent npm wrapper output is not a Packwright CLI stdout defect. The non-silent command may remain acceptable for human terminal use, but it is not the machine-parseable stdout contract.
+- Preserved probe evidence: direct CLI parse PASS; silent npm parse PASS; non-silent npm parse FAIL due to npm wrapper banner.
+- Observed parity-review versions: npm `11.17.0`; Node `v24.16.0`.
+- The Termux `/tmp` limitation is environmental and not a Packwright defect.
+
+## Slice 6g.1 CLI Compile Integration Controller Acceptance Record
+
+- This record is STATE.md-only and records Controller acceptance of Slice 6g.
+- Slice 6g.1 records Slice 6g as IMPLEMENTED / GATED / COMMITTED / PUSHED / CONTROLLER ACCEPTED at commit `783f404d597eaaed051b32a83e4fe7e0cfd33cc7`.
+- Accepted behavior: CLI parses `compile --file <path>`; reads UTF-8 JSON intake from disk; calls `engine.compile(parsedJson)`; prints parseable `{ pack, markdown }` JSON envelope to stdout; and returns concise stderr plus nonzero exit for expected user errors.
+- Accepted help and test support: help text documents the compile command and SPEC example; `PACKWRIGHT_FIXED_CREATED_AT` exists as a narrow deterministic CLI test hook; `fixtures/omniagent-intake.json` exists for SPEC command parity; focused CLI coverage is colocated in `test/engine.test.ts` to avoid the current typed-lint file cap.
+- Accepted stdout rule: direct CLI invocation emits parseable JSON stdout; machine-parseable npm invocation is `npm run --silent cli -- compile --file fixtures/omniagent-intake.json`; non-silent npm may prepend npm wrapper/banner output and is not the machine-parseable stdout contract.
+- Boundaries preserved: no generated `packs/` output files are written; no JSON/Markdown output-file writing, `packs/` directory behavior, output directory policy, overwrite policy, schema or validator changes, engine behavior changes, scoring/threshold/sequencer/corpus/provider changes, dependency changes, full Slice 6 promotion, or release readiness claim is included.
+- Output writing preflight may be prepared next after Controller acceptance. CLI-visible sample validation may be needed after acceptance, but output writing remains the main pending capability. No implementation is authorized by this record.
 
 ## Verification
 
